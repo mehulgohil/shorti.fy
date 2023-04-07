@@ -22,7 +22,7 @@ You provide a long URL and system outputs a short URL which can be used as an al
 9. Language use for backend
 
 ## High-Level Design
-![shorti.fy.jpg](shorti.fy.jpg)
+![shorti.fy.jpg](.attachments/shorti.fy.jpg)
 
 1. Two kinds of users
    1. Reader—User who will hit the short url and will be redirected to original long url
@@ -78,3 +78,9 @@ This type of architecture will help us in :-
 >Refs
 > 
 >1. [Service Pattern](https://github.com/irahardianto/service-pattern-go)
+>
+
+## Model
+
+### 1. System Context
+![SystemDiagram.jpeg](.attachments/SystemDiagram.jpeg)
