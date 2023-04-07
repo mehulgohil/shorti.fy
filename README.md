@@ -82,5 +82,8 @@ This type of architecture will help us in :-
 
 ## Model
 
-### 1. System Context
+### 1. System Context Diagram
 ![SystemDiagram.jpeg](.attachments/SystemDiagram.jpeg)
+
+### 2. Container Diagram
+![ContainerDiagram.jpeg](.attachments/ContainerDiagram.jpeg)
