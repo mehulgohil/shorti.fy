@@ -1,7 +1,7 @@
 # shorti.fy
 
-## What is URL Shortening System ?
-In laymen's terms URL Shortening is a service we can shorten the original link.
+## What is URL Shortening System?
+In layman's terms, URL Shortening is a service we can shorten the original link.
 You provide a long URL and system outputs a short URL which can be used as an alternative to long url.
 
 ## Requirement 
@@ -62,3 +62,19 @@ You provide a long URL and system outputs a short URL which can be used as an al
 > 2. https://www.linkedin.com/pulse/get-know-how-golang-contributing-bitly-reemi-shirsath/
 > 3. https://www.bairesdev.com/blog/why-golang-is-so-fast-performance-analysis/
 > 4. [Goroutines vs Thread](https://www.geeksforgeeks.org/golang-goroutine-vs-thread/)
+> 
+
+## Project Structure
+For the Project Structure,
+we will be implementing Dependency Injection architecture which would help us to decouple the controller,
+service and data layer.
+This type of architecture will help us in :-
+1. Make our logic framework independent, you will be able to inject the same service layer in different web framework (controller layer) as well as CLI layer.
+2. Independent database layer
+3. Decoupling of different layers (controller, service, data)
+4. Independent 3rd party library, no 3rd party library will be directly implemented (Redis SDK)
+5. Highly Testable—This will help us to mock each layer interface and can easily write unit tests.
+
+>Refs
+> 
+>1. [Service Pattern](https://github.com/irahardianto/service-pattern-go)
