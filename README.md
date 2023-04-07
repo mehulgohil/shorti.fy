@@ -1,4 +1,4 @@
-# bitly
+# shorti.fy
 
 ## What is URL Shortening System ?
 In laymen's terms URL Shortening is a service we can shorten the original link.
@@ -11,23 +11,23 @@ You provide a long URL and system outputs a short URL which can be used as an al
 
 ## Analysis
 ### Things to consider
-1. Number of request for reading the URL
-2. Number of request for writing (shortening) the URL
-3. Storage require for DB (Capacity)
-4. Storage require for caching (Redis)
-5. Web servers hosting (Ideal scenario would be to host on k8s which provides features of Auto Scaling, Auto Restart etc.) 
+1. Number of requests for reading the URL
+2. Number of requests for writing (shortening) the URL
+3. Storage requires for DB (Capacity)
+4. Storage requires for caching (Redis)
+5. Web server hosting (Ideal scenario would be to host on k8s which provides features of Auto Scaling, Auto Restart etc.) 
 6. Shortening Algorithm Used
-7. Security - Hackers can spam the system with random urls
+7. Security—Hackers can spam the system with random urls
 8. Database type used for storage
 9. Language use for backend
 
-## High Level Design
+## High-Level Design
 ![bitly.jpg](bitly.jpg)
 
 1. Two kinds of users
-   1. Reader - User who will hit the short url and will be redirected to original long url
-   2. Write - User who comes to bitly portal to shorten the URL
-2. Web Servers - Backend servers that will transform/shorten the URL and also redirect user to original URl
+   1. Reader—User who will hit the short url and will be redirected to original long url
+   2. Writer—User who comes to shorti.fy portal to shorten the URL
+2. Web Servers—Backend servers that will transform/shorten the URL and also redirect user to original URl
 3. Redis Cache - Caching layer that will be used in order ro cache the redirect url for more frequently used URls.
 4. Database
 5. Load Balancer - LB to distribute request among the web servers
