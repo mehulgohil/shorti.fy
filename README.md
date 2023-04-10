@@ -87,3 +87,6 @@ This type of architecture will help us in :-
 
 ### 2. Container Diagram
 ![ContainerDiagram.jpeg](.attachments/ContainerDiagram.jpeg)
+
+### 3. Component Diagram
+![ComponentDiagram.jpeg](.attachments/ComponentDiagram.jpeg)
