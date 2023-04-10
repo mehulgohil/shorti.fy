@@ -90,3 +90,25 @@ This type of architecture will help us in :-
 
 ### 3. Component Diagram
 ![ComponentDiagram.jpeg](.attachments/ComponentDiagram.jpeg)
+
+>Ref: [C4Model](https://c4model.com/)
+
+## Database
+
+As we're having a minimal structural requirement for DB (No database relationship required), we will be having 2 tables: one for user details and the other for storing the URL details.
+
+![DatabaseDiagram.jpeg](.attachments/DatabaseDiagram.jpg)
+
+Our database will be read intensively as we need to fetch the url and redirect the user accordingly. We will be using a key-value no sql database (Cassandra)
+
+## Authentication and Authorization
+
+### Reader 
+API to read/redirect from short to url to original url will be open
+   and won't require any authentication or authorization. 
+
+### Writer
+We will authorise the Writer API with bearer token authentication.
+   1. Authentication—Valid Bearer Token and Email ID
+   2. Authorization—We check the email ID from bearer token is found in DB. If not, we give a 401. 
+
