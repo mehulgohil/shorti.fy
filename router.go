@@ -25,8 +25,11 @@ func (router *router) InitRouter() *iris.Application {
 	app.UseRouter(ac.Handler)
 
 	healthCheckController := ServiceContainer().InjectHealthCheckController()
+	shortifyController := ServiceContainer().InjectShortifyController()
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
+	app.Get("/reader", shortifyController.ReaderController)
+	app.Post("/writer", shortifyController.WriterController)
 
 	return app
 }

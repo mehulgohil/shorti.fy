@@ -13,12 +13,19 @@ var (
 
 type IServiceContainer interface {
 	InjectHealthCheckController() controllers.HealthCheckController
+	InjectShortifyController() controllers.ShortifyController
 }
 
 type serviceContainer struct{}
 
 func (sc *serviceContainer) InjectHealthCheckController() controllers.HealthCheckController {
+	// injecting service layer in controller
 	return controllers.HealthCheckController{IHealthCheckService: &services.HealthCheckService{}}
+}
+
+func (sc *serviceContainer) InjectShortifyController() controllers.ShortifyController {
+	// injecting service layer in controller
+	return controllers.ShortifyController{IShortifyService: &services.ShortifyService{}}
 }
 
 func ServiceContainer() IServiceContainer {
