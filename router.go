@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	irisApplication *router
-	routerOnce      sync.Once
+	irisRouter *router
+	routerOnce sync.Once
 )
 
 type IRouter interface {
@@ -24,20 +24,20 @@ func (router *router) InitRouter() *iris.Application {
 	ac := makeAccessLog()
 	app.UseRouter(ac.Handler)
 
-	app.Get("/", func(context iris.Context) {
-		_ = context.JSON("Hi")
-	})
+	healthCheckController := ServiceContainer().InjectHealthCheckController()
+
+	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
 
 	return app
 }
 
 func Router() IRouter {
-	if irisApplication == nil {
+	if irisRouter == nil {
 		routerOnce.Do(func() {
-			irisApplication = &router{}
+			irisRouter = &router{}
 		})
 	}
-	return irisApplication
+	return irisRouter
 }
 
 // This helps to log the request and its metadata
