@@ -12,9 +12,9 @@ type ShortifyController struct {
 
 func (controller *ShortifyController) ReaderController(ctx iris.Context) {
 	params := ctx.Params()
-	hashedValue := params.Get("hashedValue")
+	hashKey := params.Get("hashKey")
 
-	originalURL, err := controller.Reader(hashedValue)
+	originalURL, err := controller.Reader(hashKey)
 	if err != nil {
 		_ = ctx.StopWithJSON(iris.StatusInternalServerError, iris.Map{
 			"error": err.Error(),

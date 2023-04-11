@@ -28,7 +28,7 @@ func (router *router) InitRouter() *iris.Application {
 	shortifyController := ServiceContainer().InjectShortifyController()
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
-	app.Get("/{hashedValue}", shortifyController.ReaderController)
+	app.Get("/{hashKey}", shortifyController.ReaderController)
 	app.Post("/v1/shorten", shortifyController.WriterController)
 
 	return app
