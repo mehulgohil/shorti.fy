@@ -145,7 +145,7 @@ Probable Solutions:
 In order to expose apis, we've used Iris Web Framework
 
 > Ref: [Iris SDK](https://github.com/kataras/iris)
-#### 1.Swagger
+#### 2. Swagger
 We have use swagger to document our apis.
 
 >Ref: [Swag SDK](https://github.com/swaggo/swag)
