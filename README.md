@@ -112,3 +112,30 @@ We will authorise the Writer API with bearer token authentication.
    1. Authentication—Valid Bearer Token and Email ID
    2. Authorization—We check the email ID from bearer token is found in DB. If not, we give a 401. 
 
+## Encoding Algo
+
+For encoding, we will be using Base62 (Alphanumeric Values) with 7 characters.
+This will generate upto (62^7) 3.5 Trillion unique short URLS.
+Even if our system shortens 1000 new URLS per second, it will take approx 100 years to exhaust this list.
+
+### Ways to generate short URL
+#### 1. Random 7 character alphanumeric string
+We randomly generate a unique string from alphanumeric characters of length 7
+
+Problems: 
+1. Probability that the hashed value can be collided (Very small chance but possible)
+
+Probable Solution:
+1. Each time a short url is generated, we check if that exists in DB or not, maybe with BLOOM Filter
+
+#### 2. MD5 and Base62 Encode
+MD5 algorithm as a hash function, then it will generate a hash value.
+Base62 Encodes the hash value and selects the first 7 characters.
+
+Problems:
+1. This will output the same short url for the same long url, which is not acceptable for different users.
+2. Probability that the hashed value can be collided (Because we're selecting the first 7 characters)
+
+Probable Solutions:
+1. We can append the root url with a counter value which increments each time a write request is called.
+2. We append the root url with the user details this will ensure the uniqueness of short url. 
