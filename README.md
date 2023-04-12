@@ -5,9 +5,21 @@ In layman's terms, URL Shortening is a service we can shorten the original link.
 You provide a long URL and system outputs a short URL which can be used as an alternative to long url.
 
 ## Requirement 
-1. Input Original Link and a unique and short url will be outputted
-2. High Availability of the system (Zero Downtime, 100% Availability, Deploy it on K8s service ?)
-3. Minimum Latency (We can use caching during redirect, deploy the infra on cloud with geo-replication)
+### Functional Requirement
+1. URL Shortening Service
+2. Users enter a long url and the system returns a shortened URL
+3. A user visiting the short url is redirected to the original long url
+4. Multiple user entering same long url gets different short url.
+5. Short URL is readable
+6. Short URL is non-predictable
+7. Short URL is collision-free (unique)
+8. Support analytics like number of hit-counts
+
+### Non Functional Requirement
+1. Scalable
+2. Highly Available
+3. Low latency
+4. Secure, example secure against spam etc
 
 ## Analysis
 ### Things to consider
