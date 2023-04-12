@@ -139,3 +139,13 @@ Problems:
 Probable Solutions:
 1. We can append the root url with a counter value which increments each time a write request is called.
 2. We append the root url with the user details this will ensure the uniqueness of short url. 
+
+### Coding Practices
+#### 1. Iris Web Framework
+In order to expose apis, we've used Iris Web Framework
+
+> Ref: [Iris SDK](https://github.com/kataras/iris)
+#### 1.Swagger
+We have use swagger to document our apis.
+
+>Ref: [Swag SDK](https://github.com/swaggo/swag)

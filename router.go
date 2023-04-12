@@ -29,7 +29,7 @@ func (router *router) InitRouter() *iris.Application {
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
 	app.Get("/{hashKey}", shortifyController.ReaderController)
-	app.Post("/v1/shorten", shortifyController.WriterController)
+	app.Post("/shorten", shortifyController.WriterController)
 
 	return app
 }
