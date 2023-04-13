@@ -1,4 +1,4 @@
-package algorithm
+package encoding
 
 import "github.com/jxskiss/base62"
 

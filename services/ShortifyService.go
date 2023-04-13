@@ -6,7 +6,8 @@ import (
 )
 
 type ShortifyService struct {
-	interfaces.EncodingAlgorithm
+	interfaces.IEncodingAlgorithm
+	interfaces.IHashingAlgorithm
 }
 
 // temporary creating map to store the hashValue
@@ -19,9 +20,11 @@ func (s *ShortifyService) Reader(url string) (string, error) {
 	return hashMap[url], nil
 }
 
-func (s *ShortifyService) Writer(url string) (string, error) {
-	encodedString := s.Encode(url)
+func (s *ShortifyService) Writer(url string, userEmail string) (string, error) {
+	encodedString := s.Encode(s.Hash(url + userEmail))
+
 	if len(encodedString) > 7 {
+		// selecting only the first 7 characters
 		encodedString = encodedString[:7]
 	}
 

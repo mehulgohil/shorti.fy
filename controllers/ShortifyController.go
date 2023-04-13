@@ -10,13 +10,13 @@ type ShortifyController struct {
 	interfaces.IShortifyService
 }
 
-//	@Summary		Reader
-//	@Description	redirect to original url
-//	@Tags			shortify
-//	@Param			hashKey	path	string	true	"short url key"
-//	@Success		301
-//	@Failure		500
-//	@Router			/{hashKey} [get]
+// @Summary		Reader
+// @Description	redirect to original url
+// @Tags			shortify
+// @Param			hashKey	path	string	true	"short url key"
+// @Success		301
+// @Failure		500
+// @Router			/{hashKey} [get]
 func (controller *ShortifyController) ReaderController(ctx iris.Context) {
 	params := ctx.Params()
 	hashKey := params.Get("hashKey")
@@ -32,16 +32,16 @@ func (controller *ShortifyController) ReaderController(ctx iris.Context) {
 	ctx.Redirect(originalURL, iris.StatusMovedPermanently)
 }
 
-//	@Summary		Writer
-//	@Description	shorten a long url
-//	@Tags			shortify
-//	@Accept			json
-//	@Produce		json
-//	@Param			data	body		models.WriterRequest	true	"writer request body"
-//	@Success		200		{object}	models.WriterResponse
-//	@Failure		400
-//	@Failure		500
-//	@Router			/shorten [post]
+// @Summary		Writer
+// @Description	shorten a long url
+// @Tags			shortify
+// @Accept			json
+// @Produce		json
+// @Param			data	body		models.WriterRequest	true	"writer request body"
+// @Success		200		{object}	models.WriterResponse
+// @Failure		400
+// @Failure		500
+// @Router			/shorten [post]
 func (controller *ShortifyController) WriterController(ctx iris.Context) {
 	var requestBody models.WriterRequest
 	err := ctx.ReadJSON(&requestBody)
@@ -51,7 +51,7 @@ func (controller *ShortifyController) WriterController(ctx iris.Context) {
 		})
 	}
 
-	newShortURL, err := controller.Writer(requestBody.LongURL)
+	newShortURL, err := controller.Writer(requestBody.LongURL, requestBody.UserEmail)
 	if err != nil {
 		_ = ctx.StopWithJSON(iris.StatusInternalServerError, iris.Map{
 			"error": err.Error(),

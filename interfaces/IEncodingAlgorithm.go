@@ -1,5 +1,5 @@
 package interfaces
 
-type EncodingAlgorithm interface {
+type IEncodingAlgorithm interface {
 	Encode(input string) string
 }

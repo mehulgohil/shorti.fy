@@ -140,12 +140,9 @@ Problems:
 Probable Solution:
 1. Each time a short url is generated, we check if that exists in DB or not, maybe with BLOOM Filter
 
-#### 2. MD5 Or Base62 Encode
-MD5 algorithm as a hash function, then it will generate a hash value. We select the first 7 characters of Hash
-
-OR
-
-Base62 Encodes the long URL, and we select the first 7 chars.
+#### 2. MD5 And Base62 Encode
+MD5 algorithm as a hash function, then it will generate a hash value.
+Base62 Encodes the hash, and we select the first 7 chars.
 
 Problems:
 1. This will output the same short url for the same long url, which is not acceptable for different users.

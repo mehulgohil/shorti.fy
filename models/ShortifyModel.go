@@ -1,7 +1,8 @@
 package models
 
 type WriterRequest struct {
-	LongURL string `json:"long_url"`
+	LongURL   string `json:"long_url"`
+	UserEmail string `json:"user_email"`
 }
 
 type WriterResponse struct {

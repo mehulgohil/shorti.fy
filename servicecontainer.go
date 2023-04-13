@@ -2,7 +2,8 @@ package main
 
 import (
 	"github.com/mehulgohil/shorti.fy/controllers"
-	"github.com/mehulgohil/shorti.fy/pkg/algorithm"
+	"github.com/mehulgohil/shorti.fy/pkg/algorithm/encoding"
+	"github.com/mehulgohil/shorti.fy/pkg/algorithm/hashing"
 	"github.com/mehulgohil/shorti.fy/services"
 	"sync"
 )
@@ -27,7 +28,8 @@ func (sc *serviceContainer) InjectHealthCheckController() controllers.HealthChec
 func (sc *serviceContainer) InjectShortifyController() controllers.ShortifyController {
 	// injecting service layer in controller
 	return controllers.ShortifyController{IShortifyService: &services.ShortifyService{
-		EncodingAlgorithm: &algorithm.Base62Algorithm{}, //injecting base62 as the encoding algorithm
+		IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
+		IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
 	}}
 }
 
