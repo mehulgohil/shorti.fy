@@ -14,12 +14,14 @@ type ShortifyService struct {
 // will remove once we have DB layer implemented
 var hashMap = map[string]string{}
 
+// Reader get long url from db
 func (s *ShortifyService) Reader(url string) (string, error) {
 	// TODO: to fetch the original url from DB
 
 	return hashMap[url], nil
 }
 
+// Writer shortens the long url and returns a short url
 func (s *ShortifyService) Writer(url string, userEmail string) (string, error) {
 	encodedString := s.Encode(s.Hash(url + userEmail))
 
