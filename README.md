@@ -111,7 +111,7 @@ As we're having a minimal structural requirement for DB (No database relationshi
 
 ![DatabaseDiagram.jpeg](.attachments/DatabaseDiagram.jpg)
 
-Our database will be read intensively as we need to fetch the url and redirect the user accordingly. We will be using a key-value no sql database (Cassandra)
+Our database will be read intensively as we need to fetch the url and redirect the user accordingly. We will be using a key-value no sql database (Cassandra, DynamoDB)
 
 ## Authentication and Authorization
 
@@ -140,9 +140,12 @@ Problems:
 Probable Solution:
 1. Each time a short url is generated, we check if that exists in DB or not, maybe with BLOOM Filter
 
-#### 2. MD5 and Base62 Encode
-MD5 algorithm as a hash function, then it will generate a hash value.
-Base62 Encodes the hash value and selects the first 7 characters.
+#### 2. MD5 Or Base62 Encode
+MD5 algorithm as a hash function, then it will generate a hash value. We select the first 7 characters of Hash
+
+OR
+
+Base62 Encodes the long URL, and we select the first 7 chars.
 
 Problems:
 1. This will output the same short url for the same long url, which is not acceptable for different users.
@@ -151,6 +154,8 @@ Problems:
 Probable Solutions:
 1. We can append the root url with a counter value which increments each time a write request is called.
 2. We append the root url with the user details this will ensure the uniqueness of short url. 
+3. Given the fact that we will be selecting the first 7 characters,
+we still need to check the database if hashKey exists to avoid the collision.
 
 ### Coding Practices
 #### 1. Iris Web Framework
