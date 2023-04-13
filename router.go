@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/accesslog"
+	"github.com/mehulgohil/shorti.fy/interfaces"
 	"io"
 	"os"
 	"sync"
@@ -14,18 +15,18 @@ var (
 )
 
 type IRouter interface {
-	InitRouter() *iris.Application
+	InitRouter(dbClient interfaces.IDataAccessLayer) *iris.Application
 }
 
 type router struct{}
 
-func (router *router) InitRouter() *iris.Application {
+func (router *router) InitRouter(dbClient interfaces.IDataAccessLayer) *iris.Application {
 	app := iris.New()
 	ac := makeAccessLog()
 	app.UseRouter(ac.Handler)
 
 	healthCheckController := ServiceContainer().InjectHealthCheckController()
-	shortifyController := ServiceContainer().InjectShortifyController()
+	shortifyController := ServiceContainer().InjectShortifyController(dbClient)
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
 	app.Get("/{hashKey}", shortifyController.ReaderController)

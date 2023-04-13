@@ -8,6 +8,7 @@ import (
 type ShortifyService struct {
 	interfaces.IEncodingAlgorithm
 	interfaces.IHashingAlgorithm
+	interfaces.IDataAccessLayer
 }
 
 // temporary creating map to store the hashValue
@@ -18,7 +19,7 @@ var hashMap = map[string]string{}
 func (s *ShortifyService) Reader(url string) (string, error) {
 	// TODO: to fetch the original url from DB
 
-	return hashMap[url], nil
+	return "", nil
 }
 
 // Writer shortens the long url and returns a short url
