@@ -117,6 +117,9 @@ const docTemplate = `{
             "properties": {
                 "long_url": {
                     "type": "string"
+                },
+                "user_email": {
+                    "type": "string"
                 }
             }
         },
