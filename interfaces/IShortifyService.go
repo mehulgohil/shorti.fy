@@ -1,6 +1,9 @@
 package interfaces
 
-type IShortifyService interface {
+type IShortifyReaderService interface {
 	Reader(shortURLHash string) (string, error)
+}
+
+type IShortifyWriterService interface {
 	Writer(longURL string, userEmail string) (string, error)
 }

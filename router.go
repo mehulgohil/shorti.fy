@@ -26,11 +26,12 @@ func (router *router) InitRouter(dbClient interfaces.IDataAccessLayer) *iris.App
 	app.UseRouter(ac.Handler)
 
 	healthCheckController := ServiceContainer().InjectHealthCheckController()
-	shortifyController := ServiceContainer().InjectShortifyController(dbClient)
+	shortifyWriterController := ServiceContainer().InjectShortifyWriterController(dbClient)
+	shortifyReaderController := ServiceContainer().InjectShortifyReaderController(dbClient)
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
-	app.Get("/{hashKey}", shortifyController.ReaderController)
-	app.Post("/shorten", shortifyController.WriterController)
+	app.Get("/{hashKey}", shortifyReaderController.ReaderController)
+	app.Post("/shorten", shortifyWriterController.WriterController)
 
 	return app
 }

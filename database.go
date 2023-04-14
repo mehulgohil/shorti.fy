@@ -81,7 +81,6 @@ func (d *DBClientHandler) tableExists(name string) bool {
 		panic(fmt.Sprintf("unable to list tables in DB, %v", err))
 	}
 	for _, n := range tables.TableNames {
-		fmt.Println(n)
 		if n == name {
 			return true
 		}

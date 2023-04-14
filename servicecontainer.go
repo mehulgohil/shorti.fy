@@ -16,7 +16,8 @@ var (
 
 type IServiceContainer interface {
 	InjectHealthCheckController() controllers.HealthCheckController
-	InjectShortifyController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyController
+	InjectShortifyWriterController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyWriterController
+	InjectShortifyReaderController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyReaderController
 }
 
 type serviceContainer struct{}
@@ -26,9 +27,18 @@ func (sc *serviceContainer) InjectHealthCheckController() controllers.HealthChec
 	return controllers.HealthCheckController{IHealthCheckService: &services.HealthCheckService{}}
 }
 
-func (sc *serviceContainer) InjectShortifyController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyController {
+func (sc *serviceContainer) InjectShortifyWriterController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyWriterController {
 	// injecting service layer in controller
-	return controllers.ShortifyController{IShortifyService: &services.ShortifyService{
+	return controllers.ShortifyWriterController{IShortifyWriterService: &services.ShortifyWriterService{
+		IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
+		IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
+		IDataAccessLayer:   dbClient,                    //injecting db client
+	}}
+}
+
+func (sc *serviceContainer) InjectShortifyReaderController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyReaderController {
+	// injecting service layer in controller
+	return controllers.ShortifyReaderController{IShortifyReaderService: &services.ShortifyReaderService{
 		IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
 		IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
 		IDataAccessLayer:   dbClient,                    //injecting db client

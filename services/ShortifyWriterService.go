@@ -7,7 +7,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/kataras/iris/v12/x/errors"
 	"github.com/mehulgohil/shorti.fy/interfaces"
 	"github.com/mehulgohil/shorti.fy/models"
 	"math/rand"
@@ -15,36 +14,14 @@ import (
 	"time"
 )
 
-type ShortifyService struct {
+type ShortifyWriterService struct {
 	interfaces.IEncodingAlgorithm
 	interfaces.IHashingAlgorithm
 	interfaces.IDataAccessLayer
 }
 
-// Reader get long url from db
-func (s *ShortifyService) Reader(shortURLHash string) (string, error) {
-
-	// get the long url from db
-	item, err := s.getItemFromDB(shortURLHash)
-	if err != nil {
-		return "", err
-	}
-
-	if item.LongURL == "" {
-		return "", errors.New("long url not found, please check the short url and try again")
-	}
-
-	// increment the hitcount and update the item
-	go func() {
-		item.HitCount = item.HitCount + 1
-		_ = s.upsertItemToTable(item)
-	}()
-
-	return item.LongURL, nil
-}
-
 // Writer shortens the long url and returns a short url
-func (s *ShortifyService) Writer(longURL string, userEmail string) (string, error) {
+func (s *ShortifyWriterService) Writer(longURL string, userEmail string) (string, error) {
 	encodedString, err := s.getUniqueHash(longURL + userEmail)
 	if err != nil {
 		return "", err
@@ -66,7 +43,7 @@ func (s *ShortifyService) Writer(longURL string, userEmail string) (string, erro
 	return fmt.Sprintf("http://localhost:8080/%s", encodedString), nil
 }
 
-func (s *ShortifyService) getUniqueHash(str string) (string, error) {
+func (s *ShortifyWriterService) getUniqueHash(str string) (string, error) {
 	for true {
 		encodedString := s.Encode(s.Hash(str))
 		if len(encodedString) > 7 {
@@ -87,7 +64,7 @@ func (s *ShortifyService) getUniqueHash(str string) (string, error) {
 	return "", nil
 }
 
-func (s *ShortifyService) upsertItemToTable(item models.URLTable) error {
+func (s *ShortifyWriterService) upsertItemToTable(item models.URLTable) error {
 	marshedData, err := attributevalue.MarshalMap(item)
 	if err != nil {
 		return err
@@ -105,7 +82,7 @@ func (s *ShortifyService) upsertItemToTable(item models.URLTable) error {
 }
 
 // ================= Utility Functions
-func (s *ShortifyService) getItemFromDB(hashKey string) (models.URLTable, error) {
+func (s *ShortifyWriterService) getItemFromDB(hashKey string) (models.URLTable, error) {
 	tableItem := models.URLTable{}
 	item, err := s.GetItem(context.Background(), &dynamodb.GetItemInput{
 		TableName: aws.String("URL"),
