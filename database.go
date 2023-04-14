@@ -6,23 +6,27 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/mehulgohil/shorti.fy/pkg/storage/nosql"
 	"sync"
 )
 
 var (
-	dynamoDBObj  *db
+	dynamoDBObj  *DBClientHandler
 	dynamoDBOnce sync.Once
 )
 
 type IDynamoDB interface {
-	InitDBConnection() *nosql.DynamoDBClient
+	InitLocalDBConnection()
+	InitTables()
 }
 
-type db struct{}
+type DBClientHandler struct {
+	DBClient *nosql.DynamoDBClient
+}
 
-// InitDBConnection initialize dynamodb connection
-func (d *db) InitDBConnection() *nosql.DynamoDBClient {
+// InitLocalDBConnection initialize dynamodb connection
+func (d *DBClientHandler) InitLocalDBConnection() {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithRegion("us-east-1"),
 		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
@@ -36,16 +40,88 @@ func (d *db) InitDBConnection() *nosql.DynamoDBClient {
 	}
 
 	// Using the Config value, create the DynamoDB client
-	return &nosql.DynamoDBClient{
+	d.DBClient = &nosql.DynamoDBClient{
 		Client: dynamodb.NewFromConfig(cfg),
+	}
+}
+
+func (d *DBClientHandler) InitTables() {
+	if d.createTableIfNotExist("URL") {
+		fmt.Println("Successfully initialized URL table")
+	} else {
+		fmt.Println("URL table already exist")
 	}
 }
 
 func DynamoDB() IDynamoDB {
 	if dynamoDBObj == nil {
 		dynamoDBOnce.Do(func() {
-			dynamoDBObj = &db{}
+			dynamoDBObj = &DBClientHandler{}
 		})
 	}
 	return dynamoDBObj
+}
+
+func (d *DBClientHandler) createTableIfNotExist(tableName string) bool {
+	if d.tableExists(tableName) {
+		return false
+	}
+	_, err := d.DBClient.CreateTable(context.TODO(), d.buildCreateTableInput(tableName))
+	if err != nil {
+		panic(fmt.Sprintf("create table failed, %v", err))
+	}
+	return true
+}
+
+func (d *DBClientHandler) tableExists(name string) bool {
+	tables, err := d.DBClient.ListTables(context.TODO())
+	if err != nil {
+		panic(fmt.Sprintf("unable to list tables in DB, %v", err))
+	}
+	for _, n := range tables.TableNames {
+		fmt.Println(n)
+		if n == name {
+			return true
+		}
+	}
+	return false
+}
+
+func (d *DBClientHandler) buildCreateTableInput(tableName string) *dynamodb.CreateTableInput {
+	return &dynamodb.CreateTableInput{
+		AttributeDefinitions: []types.AttributeDefinition{
+			{
+				AttributeName: aws.String("HashKey"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
+				AttributeName: aws.String("LongURL"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
+				AttributeName: aws.String("CreatedAt"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
+				AttributeName: aws.String("ExpirationDate"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
+				AttributeName: aws.String("HitCount"),
+				AttributeType: types.ScalarAttributeTypeN,
+			},
+			{
+				AttributeName: aws.String("CreatedBy"),
+				AttributeType: types.ScalarAttributeTypeN,
+			},
+		},
+		KeySchema: []types.KeySchemaElement{
+			{
+				AttributeName: aws.String("HashKey"),
+				KeyType:       types.KeyTypeHash,
+			},
+		},
+		TableName:   aws.String(tableName),
+		BillingMode: types.BillingModePayPerRequest,
+	}
 }

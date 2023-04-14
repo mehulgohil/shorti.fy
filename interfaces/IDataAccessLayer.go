@@ -7,4 +7,5 @@ import (
 
 type IDataAccessLayer interface {
 	ListTables(ctx context.Context) (*dynamodb.ListTablesOutput, error)
+	CreateTable(ctx context.Context, input *dynamodb.CreateTableInput) (*dynamodb.CreateTableOutput, error)
 }
