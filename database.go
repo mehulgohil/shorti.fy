@@ -46,6 +46,8 @@ func (d *DBClientHandler) InitLocalDBConnection() {
 }
 
 func (d *DBClientHandler) InitTables() {
+	// making sure the URL table exists
+	// if not, we create a new table
 	if d.createTableIfNotExist("URL") {
 		fmt.Println("Successfully initialized URL table")
 	} else {
@@ -93,26 +95,6 @@ func (d *DBClientHandler) buildCreateTableInput(tableName string) *dynamodb.Crea
 			{
 				AttributeName: aws.String("HashKey"),
 				AttributeType: types.ScalarAttributeTypeS,
-			},
-			{
-				AttributeName: aws.String("LongURL"),
-				AttributeType: types.ScalarAttributeTypeS,
-			},
-			{
-				AttributeName: aws.String("CreatedAt"),
-				AttributeType: types.ScalarAttributeTypeS,
-			},
-			{
-				AttributeName: aws.String("ExpirationDate"),
-				AttributeType: types.ScalarAttributeTypeS,
-			},
-			{
-				AttributeName: aws.String("HitCount"),
-				AttributeType: types.ScalarAttributeTypeN,
-			},
-			{
-				AttributeName: aws.String("CreatedBy"),
-				AttributeType: types.ScalarAttributeTypeN,
 			},
 		},
 		KeySchema: []types.KeySchemaElement{
