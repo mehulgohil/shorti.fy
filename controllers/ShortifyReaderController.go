@@ -11,13 +11,13 @@ type ShortifyReaderController struct {
 	Logger *zap.Logger
 }
 
-// @Summary		Reader
-// @Description	redirect to original url
-// @Tags			shortify
-// @Param			hashKey	path	string	true	"short url key"
-// @Success		301
-// @Failure		500
-// @Router			/{hashKey} [get]
+//	@Summary		Reader
+//	@Description	redirect to original url
+//	@Tags			shortify
+//	@Param			hashKey	path	string	true	"short url key"
+//	@Success		301
+//	@Failure		500
+//	@Router			/{hashKey} [get]
 func (controller *ShortifyReaderController) ReaderController(ctx iris.Context) {
 	params := ctx.Params()
 	hashKey := params.Get("hashKey")
