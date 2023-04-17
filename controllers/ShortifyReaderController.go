@@ -3,10 +3,12 @@ package controllers
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/mehulgohil/shorti.fy/interfaces"
+	"go.uber.org/zap"
 )
 
 type ShortifyReaderController struct {
 	interfaces.IShortifyReaderService
+	Logger *zap.Logger
 }
 
 // @Summary		Reader
@@ -22,6 +24,12 @@ func (controller *ShortifyReaderController) ReaderController(ctx iris.Context) {
 
 	originalURL, err := controller.Reader(hashKey)
 	if err != nil {
+		controller.Logger.Error(
+			"READER: Error from service..",
+			zap.String("hashKey", hashKey),
+			zap.Error(err),
+		)
+
 		_ = ctx.StopWithJSON(iris.StatusInternalServerError, iris.Map{
 			"error": err.Error(),
 		})

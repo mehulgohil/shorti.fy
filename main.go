@@ -4,12 +4,14 @@ import (
 	_ "github.com/mehulgohil/shorti.fy/docs"
 )
 
-//	@title			shorti.fy
-//	@version		1.0
-//	@description	This is a backend api application for shorti.fy.
-//	@host			localhost:8080
-//	@BasePath		/
+// @title			shorti.fy
+// @version		1.0
+// @description	This is a backend api application for shorti.fy.
+// @host			localhost:8080
+// @BasePath		/
 func main() {
+	//initialize logger
+	InitializeLogger()
 
 	//initialize DB
 	DynamoDB().InitLocalDBConnection()

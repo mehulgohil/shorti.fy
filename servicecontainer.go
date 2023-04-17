@@ -29,20 +29,26 @@ func (sc *serviceContainer) InjectHealthCheckController() controllers.HealthChec
 
 func (sc *serviceContainer) InjectShortifyWriterController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyWriterController {
 	// injecting service layer in controller
-	return controllers.ShortifyWriterController{IShortifyWriterService: &services.ShortifyWriterService{
-		IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
-		IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
-		IDataAccessLayer:   dbClient,                    //injecting db client
-	}}
+	return controllers.ShortifyWriterController{
+		IShortifyWriterService: &services.ShortifyWriterService{
+			IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
+			IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
+			IDataAccessLayer:   dbClient,                    //injecting db client
+		},
+		Logger: ZapLogger,
+	}
 }
 
 func (sc *serviceContainer) InjectShortifyReaderController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyReaderController {
 	// injecting service layer in controller
-	return controllers.ShortifyReaderController{IShortifyReaderService: &services.ShortifyReaderService{
-		IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
-		IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
-		IDataAccessLayer:   dbClient,                    //injecting db client
-	}}
+	return controllers.ShortifyReaderController{
+		IShortifyReaderService: &services.ShortifyReaderService{
+			IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
+			IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
+			IDataAccessLayer:   dbClient,                    //injecting db client
+		},
+		Logger: ZapLogger,
+	}
 }
 
 func ServiceContainer() IServiceContainer {

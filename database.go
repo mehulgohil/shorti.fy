@@ -49,9 +49,9 @@ func (d *DBClientHandler) InitTables() {
 	// making sure the URL table exists
 	// if not, we create a new table
 	if d.createTableIfNotExist("URL") {
-		fmt.Println("Successfully initialized URL table")
+		ZapLogger.Info("Successfully initialized new URL table")
 	} else {
-		fmt.Println("URL table already exist")
+		ZapLogger.Info("URL table already exist")
 	}
 }
 
