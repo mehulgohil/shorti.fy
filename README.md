@@ -131,14 +131,30 @@ Our database will be read intensively as we need to fetch the url and redirect t
 
 ## Authentication and Authorization
 
-### Reader 
-API to read/redirect from short to url to original url will be open
-   and won't require any authentication or authorization. 
+To secure our APIs, we will be using the OAuth2.0.
+Currently, we have 2 flows that we can implement
 
-### Writer
-We will authorise the Writer API with bearer token authentication.
-   1. Authentication—Valid Bearer Token and Email ID
-   2. Authorization—We check the email ID from bearer token is found in DB. If not, we give a 401. 
+### Implicit Flow
+   Implicit flow is one of the types of OAuth2.0 flow.
+   This flow is basically used for single page application. Here web page request directly the token and use that token to call the backend protected apis.
+
+### Authorization Code Flow
+   This is the most secure flow as it uses a backend channel to get the token.
+   We will be having a separate backend Auth Server (middleware) which will be having the login, redirect, logout endpoints etc.
+
+   The middleware will act as a proxy between the resource API and frontend.
+
+   ![img.png](.attachments/AuthCodeFlow.png)
+
+   We will be implementing Backend for Frontend Patter (BFF).
+   Where our middleware will act as a backend for frontend and will generate the token,
+   and we use this token to access the shortify apis (writer).
+   
+   In our resource backend server we can validate the JWT token in the handler.
+> Ref
+> 
+> [Token Handler Patter](https://levelup.gitconnected.com/secure-frontend-authorization-67ae11953723)
+> [BFF](https://dev.to/damikun/web-app-security-understanding-the-meaning-of-the-bff-pattern-i85)
 
 ## Encoding Algo
 
