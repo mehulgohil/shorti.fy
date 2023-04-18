@@ -11,6 +11,7 @@ RUN go mod download
 COPY . ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /shortify
+
 # Run the tests in the container
 FROM build-stage AS run-test-stage
 RUN go test -v ./...
