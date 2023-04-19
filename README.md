@@ -1,5 +1,7 @@
 # shorti.fy
 
+![docker-image-writer-workflow](https://github.com//mehulgohil/shorti.fy//.github/workflows/docker-image-writer.yml/badge.svg)
+
 ## What is URL Shortening System?
 In layman's terms, URL Shortening is a service we can shorten the original link.
 You provide a long URL and system outputs a short URL which can be used as an alternative to long url.
