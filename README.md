@@ -1,21 +1,5 @@
 # shorti.fy
 
-## Get Started
-### Backend Setup
-```shell
-go mod download
-go run .
-```
-
-### Database Setup
-We've used DynamoDB as the database to store the URLs.
-Initial Configuration will require you to set up the DynamoDB in your local.
-
-1. Install Docker Desktop 
-2. ```shell
-   docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
-   ```
-
 ## What is URL Shortening System?
 In layman's terms, URL Shortening is a service we can shorten the original link.
 You provide a long URL and system outputs a short URL which can be used as an alternative to long url.
