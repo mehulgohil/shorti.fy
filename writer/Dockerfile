@@ -5,12 +5,12 @@ FROM golang:1.20 AS build-stage
 
 WORKDIR go/src/app
 
-COPY go.mod go.sum ./
+COPY writer/go.mod writer/go.sum ./
 RUN go mod download
 
-COPY . ./
+COPY ./writer ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /shortify
+RUN CGO_ENABLED=0 GOOS=linux go build -o /shortify-writer
 
 # Run the tests in the container
 FROM build-stage AS run-test-stage
@@ -21,10 +21,10 @@ FROM gcr.io/distroless/base-debian11 AS build-release-stage
 
 WORKDIR /
 
-COPY --from=build-stage /shortify /shortify
+COPY --from=build-stage /shortify-writer /shortify-writer
 
 EXPOSE 8080
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/shortify"]
+ENTRYPOINT ["/shortify-writer"]

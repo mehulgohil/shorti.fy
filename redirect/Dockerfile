@@ -27,4 +27,4 @@ EXPOSE 80
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/shortify"]
+ENTRYPOINT ["/shortify-redirect"]
