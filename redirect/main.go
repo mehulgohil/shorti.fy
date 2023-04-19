@@ -15,6 +15,7 @@ func main() {
 
 	//initialize DB
 	DynamoDB().InitLocalDBConnection()
+	DynamoDB().InitTables()
 
 	//initialize api routes
 	app := Router().InitRouter(DynamoDB().(*DBClientHandler).DBClient)
