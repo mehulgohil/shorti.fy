@@ -4,6 +4,7 @@ go 1.20
 
 require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.19.5
+	github.com/golang/mock v1.6.0
 	github.com/jxskiss/base62 v1.1.0
 )
 
