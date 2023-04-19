@@ -6,10 +6,11 @@ require (
 	github.com/aws/aws-sdk-go-v2 v1.17.8
 	github.com/aws/aws-sdk-go-v2/config v1.18.21
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.10.21
-	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.19.4
+	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.19.5
 	github.com/golang/mock v1.6.0
 	github.com/iris-contrib/swagger/v12 v12.0.1
 	github.com/kataras/iris/v12 v12.2.0
+	github.com/mehulgohil/shorti.fy/common v0.0.0-20230419062239-5f7de17d26c6
 	github.com/swaggo/swag v1.8.12
 	go.uber.org/zap v1.24.0
 )

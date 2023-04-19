@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/accesslog"
-	"github.com/mehulgohil/shorti.fy/redirect/interfaces"
+	"github.com/mehulgohil/shorti.fy/common/interfaces"
 	"io"
 	"os"
 	"sync"

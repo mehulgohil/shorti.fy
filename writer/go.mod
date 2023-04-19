@@ -9,8 +9,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.19.5
 	github.com/golang/mock v1.6.0
 	github.com/iris-contrib/swagger/v12 v12.0.1
-	github.com/jxskiss/base62 v1.1.0
 	github.com/kataras/iris/v12 v12.2.0
+	github.com/mehulgohil/shorti.fy/common v0.0.0-20230419065227-9d4aaef55947
 	github.com/swaggo/swag v1.16.1
 	go.uber.org/zap v1.24.0
 )
@@ -53,6 +53,7 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/jxskiss/base62 v1.1.0 // indirect
 	github.com/kataras/blocks v0.0.7 // indirect
 	github.com/kataras/golog v0.1.8 // indirect
 	github.com/kataras/pio v0.0.11 // indirect
