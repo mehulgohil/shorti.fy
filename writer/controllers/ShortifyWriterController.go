@@ -31,9 +31,10 @@ func (controller *ShortifyWriterController) WriterController(ctx iris.Context) {
 			zap.Error(err),
 		)
 
-		_ = ctx.StopWithJSON(iris.StatusBadRequest, iris.Map{
-			"error": err.Error(),
+		_ = ctx.StopWithJSON(iris.StatusBadRequest, models.ErrorResponse{
+			Error: err.Error(),
 		})
+		return
 	}
 
 	newShortURL, err := controller.Writer(requestBody.LongURL, requestBody.UserEmail)
@@ -44,8 +45,8 @@ func (controller *ShortifyWriterController) WriterController(ctx iris.Context) {
 			zap.Error(err),
 		)
 
-		_ = ctx.StopWithJSON(iris.StatusInternalServerError, iris.Map{
-			"error": err.Error(),
+		_ = ctx.StopWithJSON(iris.StatusInternalServerError, models.ErrorResponse{
+			Error: err.Error(),
 		})
 		return
 	}

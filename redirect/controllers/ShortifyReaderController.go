@@ -3,6 +3,7 @@ package controllers
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/mehulgohil/shorti.fy/redirect/interfaces"
+	"github.com/mehulgohil/shorti.fy/redirect/models"
 	"go.uber.org/zap"
 )
 
@@ -30,8 +31,8 @@ func (controller *ShortifyReaderController) ReaderController(ctx iris.Context) {
 			zap.Error(err),
 		)
 
-		_ = ctx.StopWithJSON(iris.StatusInternalServerError, iris.Map{
-			"error": err.Error(),
+		_ = ctx.StopWithJSON(iris.StatusInternalServerError, models.ErrorResponse{
+			Error: err.Error(),
 		})
 		return
 	}
