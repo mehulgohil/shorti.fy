@@ -1,10 +1,10 @@
-name: Docker Image CI
+name: Docker Image CI Redirect Microservice
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  paths:
+    - redirect/**
 
 jobs:
 
@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag shortify:$(date +%s)
+      run: docker build . --file redirect/Dockerfile --tag shortifyredirect:$(date +%s)
