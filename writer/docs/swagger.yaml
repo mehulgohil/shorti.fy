@@ -39,7 +39,7 @@ paths:
       summary: Check HealthCheckStatus
       tags:
       - healthcheck
-  /shorten:
+  /v1/shorten:
     post:
       consumes:
       - application/json

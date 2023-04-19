@@ -12,7 +12,20 @@ info:
   title: shorti.fy - Redirect
   version: "1.0"
 paths:
-  /{hashKey}:
+  /healthcheck:
+    get:
+      description: Check Server Health
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.HealthCheckResponse'
+      summary: Check HealthCheckStatus
+      tags:
+      - healthcheck
+  /v1/{hashKey}:
     get:
       description: redirect to original url
       parameters:
@@ -29,17 +42,4 @@ paths:
       summary: Reader
       tags:
       - shortify
-  /healthcheck:
-    get:
-      description: Check Server Health
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.HealthCheckResponse'
-      summary: Check HealthCheckStatus
-      tags:
-      - healthcheck
 swagger: "2.0"

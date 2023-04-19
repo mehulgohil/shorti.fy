@@ -36,7 +36,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/{hashKey}": {
+        "/v1/{hashKey}": {
             "get": {
                 "description": "redirect to original url",
                 "tags": [

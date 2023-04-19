@@ -21,7 +21,7 @@ type ShortifyWriterController struct {
 //	@Success		200		{object}	models.WriterResponse
 //	@Failure		400
 //	@Failure		500
-//	@Router			/shorten [post]
+//	@Router			/v1/shorten [post]
 func (controller *ShortifyWriterController) WriterController(ctx iris.Context) {
 	var requestBody models.WriterRequest
 	err := ctx.ReadJSON(&requestBody)

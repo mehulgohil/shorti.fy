@@ -36,7 +36,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/shorten": {
+        "/v1/shorten": {
             "post": {
                 "description": "shorten a long url",
                 "consumes": [
