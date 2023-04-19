@@ -40,7 +40,7 @@ func (s *ShortifyWriterService) Writer(longURL string, userEmail string) (string
 		return "", err
 	}
 
-	return fmt.Sprintf("http://localhost:8080/%s", encodedString), nil
+	return fmt.Sprintf("http://localhost:8081/%s", encodedString), nil
 }
 
 func (s *ShortifyWriterService) getUniqueHash(str string) (string, error) {
