@@ -1,6 +1,6 @@
 package services
 
-import "github.com/mehulgohil/shorti.fy/models"
+import "github.com/mehulgohil/shorti.fy/writer/models"
 
 type HealthCheckService struct{}
 

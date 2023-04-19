@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/accesslog"
-	"github.com/mehulgohil/shorti.fy/interfaces"
+	"github.com/mehulgohil/shorti.fy/writer/interfaces"
 	"io"
 	"os"
 	"sync"
@@ -27,10 +27,8 @@ func (router *router) InitRouter(dbClient interfaces.IDataAccessLayer) *iris.App
 
 	healthCheckController := ServiceContainer().InjectHealthCheckController()
 	shortifyWriterController := ServiceContainer().InjectShortifyWriterController(dbClient)
-	shortifyReaderController := ServiceContainer().InjectShortifyReaderController(dbClient)
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
-	app.Get("/{hashKey}", shortifyReaderController.ReaderController)
 	app.Post("/shorten", shortifyWriterController.WriterController)
 
 	return app

@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/kataras/iris/v12"
-	"github.com/mehulgohil/shorti.fy/interfaces"
+	"github.com/mehulgohil/shorti.fy/redirect/interfaces"
 	"go.uber.org/zap"
 )
 

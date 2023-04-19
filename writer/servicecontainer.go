@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/mehulgohil/shorti.fy/controllers"
-	"github.com/mehulgohil/shorti.fy/interfaces"
-	"github.com/mehulgohil/shorti.fy/pkg/algorithm/encoding"
-	"github.com/mehulgohil/shorti.fy/pkg/algorithm/hashing"
-	"github.com/mehulgohil/shorti.fy/services"
+	"github.com/mehulgohil/shorti.fy/writer/controllers"
+	"github.com/mehulgohil/shorti.fy/writer/interfaces"
+	"github.com/mehulgohil/shorti.fy/writer/pkg/algorithm/encoding"
+	"github.com/mehulgohil/shorti.fy/writer/pkg/algorithm/hashing"
+	"github.com/mehulgohil/shorti.fy/writer/services"
 	"sync"
 )
 
@@ -17,7 +17,6 @@ var (
 type IServiceContainer interface {
 	InjectHealthCheckController() controllers.HealthCheckController
 	InjectShortifyWriterController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyWriterController
-	InjectShortifyReaderController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyReaderController
 }
 
 type serviceContainer struct{}
@@ -31,18 +30,6 @@ func (sc *serviceContainer) InjectShortifyWriterController(dbClient interfaces.I
 	// injecting service layer in controller
 	return controllers.ShortifyWriterController{
 		IShortifyWriterService: &services.ShortifyWriterService{
-			IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
-			IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
-			IDataAccessLayer:   dbClient,                    //injecting db client
-		},
-		Logger: ZapLogger,
-	}
-}
-
-func (sc *serviceContainer) InjectShortifyReaderController(dbClient interfaces.IDataAccessLayer) controllers.ShortifyReaderController {
-	// injecting service layer in controller
-	return controllers.ShortifyReaderController{
-		IShortifyReaderService: &services.ShortifyReaderService{
 			IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
 			IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
 			IDataAccessLayer:   dbClient,                    //injecting db client

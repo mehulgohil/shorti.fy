@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/kataras/iris/v12"
-	"github.com/mehulgohil/shorti.fy/interfaces"
-	"github.com/mehulgohil/shorti.fy/models"
+	"github.com/mehulgohil/shorti.fy/writer/interfaces"
+	"github.com/mehulgohil/shorti.fy/writer/models"
 	"go.uber.org/zap"
 )
 
@@ -12,16 +12,16 @@ type ShortifyWriterController struct {
 	Logger *zap.Logger
 }
 
-//	@Summary		Writer
-//	@Description	shorten a long url
-//	@Tags			shortify
-//	@Accept			json
-//	@Produce		json
-//	@Param			data	body		models.WriterRequest	true	"writer request body"
-//	@Success		200		{object}	models.WriterResponse
-//	@Failure		400
-//	@Failure		500
-//	@Router			/shorten [post]
+// @Summary		Writer
+// @Description	shorten a long url
+// @Tags			shortify
+// @Accept			json
+// @Produce		json
+// @Param			data	body		models.WriterRequest	true	"writer request body"
+// @Success		200		{object}	models.WriterResponse
+// @Failure		400
+// @Failure		500
+// @Router			/shorten [post]
 func (controller *ShortifyWriterController) WriterController(ctx iris.Context) {
 	var requestBody models.WriterRequest
 	err := ctx.ReadJSON(&requestBody)

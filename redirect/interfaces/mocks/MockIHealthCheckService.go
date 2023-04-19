@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	models "github.com/mehulgohil/shorti.fy/models"
+	models "github.com/mehulgohil/shorti.fy/redirect/models"
 )
 
 // MockIHealthCheckService is a mock of IHealthCheckService interface.
