@@ -29,7 +29,7 @@ func (router *router) InitRouter(dbClient interfaces.IDataAccessLayer) *iris.App
 	shortifyWriterController := ServiceContainer().InjectShortifyWriterController(dbClient)
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
-	app.Post("/shorten", shortifyWriterController.WriterController)
+	app.Post("/v1/shorten", shortifyWriterController.WriterController)
 
 	return app
 }

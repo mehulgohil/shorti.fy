@@ -23,7 +23,7 @@ func main() {
 	//initialize swagger routes
 	SwaggerRouter().InitSwaggerRouter(app)
 
-	err := app.Listen(":8081")
+	err := app.Listen(":80")
 	if err != nil {
 		panic("unable to start server")
 	}
