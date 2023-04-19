@@ -1,4 +1,4 @@
-name: Redirect Docker Image CI
+name: Writer Docker Image CI
 
 on:
   push:
