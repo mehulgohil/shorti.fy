@@ -2,6 +2,7 @@
 
 ![docker-image-writer](https://github.com//mehulgohil/shorti.fy/actions/workflows/docker-image-writer.yml/badge.svg)
 ![docker-image-redirect](https://github.com//mehulgohil/shorti.fy/actions/workflows/docker-image-redirect.yml/badge.svg)
+![docker-image-redirect](https://github.com//mehulgohil/shorti.fy/actions/workflows/test-coverage.yml/badge.svg)
 
 
 ## What is URL Shortening System?
