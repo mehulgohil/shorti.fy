@@ -4,11 +4,11 @@ import (
 	_ "github.com/mehulgohil/shorti.fy/redirect/docs"
 )
 
-// @title			shorti.fy - Redirect
-// @version		1.0
-// @description	This is a backend microservice for shorti.fy Redirect.
-// @host			localhost:8081
-// @BasePath		/
+//	@title			shorti.fy - Redirect
+//	@version		1.0
+//	@description	This is a backend microservice for shorti.fy Redirect.
+//	@host			localhost:8081
+//	@BasePath		/
 func main() {
 	//initialize logger
 	InitializeLogger()

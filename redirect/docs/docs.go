@@ -36,46 +36,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/shorten": {
-            "post": {
-                "description": "shorten a long url",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "shortify"
-                ],
-                "summary": "Writer",
-                "parameters": [
-                    {
-                        "description": "writer request body",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.WriterRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.WriterResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request"
-                    },
-                    "500": {
-                        "description": "Internal Server Error"
-                    }
-                }
-            }
-        },
         "/{hashKey}": {
             "get": {
                 "description": "redirect to original url",
@@ -111,28 +71,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "models.WriterRequest": {
-            "type": "object",
-            "properties": {
-                "long_url": {
-                    "type": "string"
-                },
-                "user_email": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.WriterResponse": {
-            "type": "object",
-            "properties": {
-                "long_url": {
-                    "type": "string"
-                },
-                "short_url": {
-                    "type": "string"
-                }
-            }
         }
     }
 }`
@@ -140,11 +78,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:8081",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "shorti.fy",
-	Description:      "This is a backend api application for shorti.fy.",
+	Title:            "shorti.fy - Redirect",
+	Description:      "This is a backend microservice for shorti.fy Redirect.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

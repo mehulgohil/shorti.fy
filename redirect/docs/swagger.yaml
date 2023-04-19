@@ -5,25 +5,11 @@ definitions:
       status:
         type: string
     type: object
-  models.WriterRequest:
-    properties:
-      long_url:
-        type: string
-      user_email:
-        type: string
-    type: object
-  models.WriterResponse:
-    properties:
-      long_url:
-        type: string
-      short_url:
-        type: string
-    type: object
-host: localhost:8080
+host: localhost:8081
 info:
   contact: {}
-  description: This is a backend api application for shorti.fy.
-  title: shorti.fy
+  description: This is a backend microservice for shorti.fy Redirect.
+  title: shorti.fy - Redirect
   version: "1.0"
 paths:
   /{hashKey}:
@@ -56,30 +42,4 @@ paths:
       summary: Check HealthCheckStatus
       tags:
       - healthcheck
-  /shorten:
-    post:
-      consumes:
-      - application/json
-      description: shorten a long url
-      parameters:
-      - description: writer request body
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/models.WriterRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.WriterResponse'
-        "400":
-          description: Bad Request
-        "500":
-          description: Internal Server Error
-      summary: Writer
-      tags:
-      - shortify
 swagger: "2.0"
