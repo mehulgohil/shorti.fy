@@ -5,7 +5,7 @@ definitions:
       status:
         type: string
     type: object
-host: localhost:8081
+host: localhost:80
 info:
   contact: {}
   description: This is a backend microservice for shorti.fy Redirect.

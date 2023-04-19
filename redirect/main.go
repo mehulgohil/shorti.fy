@@ -7,7 +7,7 @@ import (
 //	@title			shorti.fy - Redirect
 //	@version		1.0
 //	@description	This is a backend microservice for shorti.fy Redirect.
-//	@host			localhost:8081
+//	@host			localhost:80
 //	@BasePath		/
 func main() {
 	//initialize logger

@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8081",
+    "host": "localhost:80",
     "basePath": "/",
     "paths": {
         "/healthcheck": {
