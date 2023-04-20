@@ -1,6 +1,6 @@
 # shorti.fy
 ![RedirectCoverage](https://img.shields.io/badge/RedirectCoverage-52.6%25-yellow)
-![WriterCoverage](https://img.shields.io/badge/WriterCoverage-100.0%25-brightgreen)
+![WriterCoverage](https://img.shields.io/badge/WriterCoverage-43.8%25-yellow)
 
 ![docker-image-writer](https://github.com//mehulgohil/shorti.fy/actions/workflows/docker-image-writer.yml/badge.svg)
 ![docker-image-redirect](https://github.com//mehulgohil/shorti.fy/actions/workflows/docker-image-redirect.yml/badge.svg)
