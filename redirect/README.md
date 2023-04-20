@@ -17,4 +17,3 @@ Initial Configuration will require you to set up the DynamoDB in your local.
 2. ```shell
    docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
    ```
-
