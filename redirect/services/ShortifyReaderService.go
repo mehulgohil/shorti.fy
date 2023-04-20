@@ -7,6 +7,7 @@ import (
 
 type ShortifyReaderService struct {
 	interfaces.IDataAccessLayer
+	interfaces.IRedisLayer
 }
 
 // Reader get long url from db

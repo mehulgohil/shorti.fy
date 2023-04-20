@@ -15,6 +15,8 @@ Initial Configuration will require you to set up the DynamoDB in your local.
 
 1. Install Docker Desktop 
 2. ```shell
-   docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
+    docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
    ```
-   
+3. ```shell
+    docker run --name redis-local -p 6379:6379 -d redis
+    ```

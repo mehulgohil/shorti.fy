@@ -15,18 +15,18 @@ var (
 )
 
 type IRouter interface {
-	InitRouter(dbClient interfaces.IDataAccessLayer) *iris.Application
+	InitRouter(dbClient interfaces.IDataAccessLayer, redisClient interfaces.IRedisLayer) *iris.Application
 }
 
 type router struct{}
 
-func (router *router) InitRouter(dbClient interfaces.IDataAccessLayer) *iris.Application {
+func (router *router) InitRouter(dbClient interfaces.IDataAccessLayer, redisClient interfaces.IRedisLayer) *iris.Application {
 	app := iris.New()
 	ac := makeAccessLog()
 	app.UseRouter(ac.Handler)
 
 	healthCheckController := ServiceContainer().InjectHealthCheckController()
-	shortifyReaderController := ServiceContainer().InjectShortifyReaderController(dbClient)
+	shortifyReaderController := ServiceContainer().InjectShortifyReaderController(dbClient, redisClient)
 
 	app.Get("/healthcheck", healthCheckController.CheckServerHealthCheck)
 	app.Get("/v1/{hashKey}", shortifyReaderController.ReaderController)

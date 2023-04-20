@@ -1,27 +1,31 @@
 package main
 
 import (
+	"github.com/mehulgohil/shorti.fy/redirect/config"
 	_ "github.com/mehulgohil/shorti.fy/redirect/docs"
 )
 
-//	@title			shorti.fy - Redirect
-//	@version		1.0
-//	@description	This is a backend microservice for shorti.fy Redirect.
-//	@host			localhost:80
-//	@BasePath		/
+// @title			shorti.fy - Redirect
+// @version		1.0
+// @description	This is a backend microservice for shorti.fy Redirect.
+// @host			localhost:80
+// @BasePath		/
 func main() {
 	//initialize logger
-	InitializeLogger()
+	config.InitializeLogger()
 
 	//initialize DB
-	DynamoDB().InitLocalDBConnection()
-	DynamoDB().InitTables()
+	config.DynamoDB().InitLocalDBConnection()
+	config.DynamoDB().InitTables()
+
+	//initialize redis
+	config.Redis().InitRedisConnection()
 
 	//initialize api routes
-	app := Router().InitRouter(DynamoDB().(*DBClientHandler).DBClient)
+	app := Router().InitRouter(config.DynamoDB().(*config.DBClientHandler).DBClient, config.Redis().(*config.RedisHandler).RedisClient)
 
 	//initialize swagger routes
-	SwaggerRouter().InitSwaggerRouter(app)
+	config.SwaggerRouter().InitSwaggerRouter(app)
 
 	err := app.Listen(":80")
 	if err != nil {
