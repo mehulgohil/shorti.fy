@@ -1,4 +1,5 @@
 # shorti.fy
+![Redirect-Coverage](https://img.shields.io/badge/Redirect-Coverage-100.0%25-brightgreen)
 ![Writer-Coverage](https://img.shields.io/badge/Coverage-100.0%25-brightgreen)
 ![Redirect-Coverage](https://img.shields.io/badge/Coverage-100.0%25-brightgreen)
 
