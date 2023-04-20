@@ -1,4 +1,5 @@
 # shorti.fy
+![WriterCoverage](https://img.shields.io/badge/WriterCoverage-100.0%25-brightgreen)
 
 ![docker-image-writer](https://github.com//mehulgohil/shorti.fy/actions/workflows/docker-image-writer.yml/badge.svg)
 ![docker-image-redirect](https://github.com//mehulgohil/shorti.fy/actions/workflows/docker-image-redirect.yml/badge.svg)
