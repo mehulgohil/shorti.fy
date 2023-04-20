@@ -2,25 +2,50 @@ package nosql
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/mehulgohil/shorti.fy/writer/models"
 )
 
 type DynamoDBClient struct {
 	Client *dynamodb.Client
 }
 
-func (d *DynamoDBClient) ListTables(ctx context.Context) (*dynamodb.ListTablesOutput, error) {
-	return d.Client.ListTables(ctx, &dynamodb.ListTablesInput{})
+func (d *DynamoDBClient) SaveItem(item models.URLTable) error {
+	marshedData, err := attributevalue.MarshalMap(item)
+	if err != nil {
+		return err
+	}
+
+	_, err = d.Client.PutItem(context.Background(), &dynamodb.PutItemInput{
+		TableName: aws.String("URL"),
+		Item:      marshedData,
+	})
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
-func (d *DynamoDBClient) CreateTable(ctx context.Context, input *dynamodb.CreateTableInput) (*dynamodb.CreateTableOutput, error) {
-	return d.Client.CreateTable(ctx, input)
-}
+func (d *DynamoDBClient) GetItem(hashKey string) (models.URLTable, error) {
+	tableItem := models.URLTable{}
+	item, err := d.Client.GetItem(context.Background(), &dynamodb.GetItemInput{
+		TableName: aws.String("URL"),
+		Key: map[string]types.AttributeValue{
+			"HashKey": &types.AttributeValueMemberS{Value: hashKey},
+		},
+	})
+	if err != nil {
+		return tableItem, err
+	}
 
-func (d *DynamoDBClient) PutItem(ctx context.Context, input *dynamodb.PutItemInput) (*dynamodb.PutItemOutput, error) {
-	return d.Client.PutItem(ctx, input)
-}
+	err = attributevalue.UnmarshalMap(item.Item, &tableItem)
+	if err != nil {
+		return tableItem, err
+	}
 
-func (d *DynamoDBClient) GetItem(ctx context.Context, input *dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error) {
-	return d.Client.GetItem(ctx, input)
+	return tableItem, nil
 }

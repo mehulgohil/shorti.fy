@@ -5,11 +5,10 @@
 package mocks
 
 import (
-	context "context"
 	reflect "reflect"
 
-	dynamodb "github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	gomock "github.com/golang/mock/gomock"
+	models "github.com/mehulgohil/shorti.fy/writer/models"
 )
 
 // MockIDataAccessLayer is a mock of IDataAccessLayer interface.
@@ -35,62 +34,31 @@ func (m *MockIDataAccessLayer) EXPECT() *MockIDataAccessLayerMockRecorder {
 	return m.recorder
 }
 
-// CreateTable mocks base method.
-func (m *MockIDataAccessLayer) CreateTable(ctx context.Context, input *dynamodb.CreateTableInput) (*dynamodb.CreateTableOutput, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTable", ctx, input)
-	ret0, _ := ret[0].(*dynamodb.CreateTableOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// CreateTable indicates an expected call of CreateTable.
-func (mr *MockIDataAccessLayerMockRecorder) CreateTable(ctx, input interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTable", reflect.TypeOf((*MockIDataAccessLayer)(nil).CreateTable), ctx, input)
-}
-
 // GetItem mocks base method.
-func (m *MockIDataAccessLayer) GetItem(ctx context.Context, input *dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error) {
+func (m *MockIDataAccessLayer) GetItem(hashKey string) (models.URLTable, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetItem", ctx, input)
-	ret0, _ := ret[0].(*dynamodb.GetItemOutput)
+	ret := m.ctrl.Call(m, "GetItem", hashKey)
+	ret0, _ := ret[0].(models.URLTable)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetItem indicates an expected call of GetItem.
-func (mr *MockIDataAccessLayerMockRecorder) GetItem(ctx, input interface{}) *gomock.Call {
+func (mr *MockIDataAccessLayerMockRecorder) GetItem(hashKey interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetItem", reflect.TypeOf((*MockIDataAccessLayer)(nil).GetItem), ctx, input)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetItem", reflect.TypeOf((*MockIDataAccessLayer)(nil).GetItem), hashKey)
 }
 
-// ListTables mocks base method.
-func (m *MockIDataAccessLayer) ListTables(ctx context.Context) (*dynamodb.ListTablesOutput, error) {
+// SaveItem mocks base method.
+func (m *MockIDataAccessLayer) SaveItem(item models.URLTable) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListTables", ctx)
-	ret0, _ := ret[0].(*dynamodb.ListTablesOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret := m.ctrl.Call(m, "SaveItem", item)
+	ret0, _ := ret[0].(error)
+	return ret0
 }
 
-// ListTables indicates an expected call of ListTables.
-func (mr *MockIDataAccessLayerMockRecorder) ListTables(ctx interface{}) *gomock.Call {
+// SaveItem indicates an expected call of SaveItem.
+func (mr *MockIDataAccessLayerMockRecorder) SaveItem(item interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListTables", reflect.TypeOf((*MockIDataAccessLayer)(nil).ListTables), ctx)
-}
-
-// PutItem mocks base method.
-func (m *MockIDataAccessLayer) PutItem(ctx context.Context, input *dynamodb.PutItemInput) (*dynamodb.PutItemOutput, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "PutItem", ctx, input)
-	ret0, _ := ret[0].(*dynamodb.PutItemOutput)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// PutItem indicates an expected call of PutItem.
-func (mr *MockIDataAccessLayerMockRecorder) PutItem(ctx, input interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "PutItem", reflect.TypeOf((*MockIDataAccessLayer)(nil).PutItem), ctx, input)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveItem", reflect.TypeOf((*MockIDataAccessLayer)(nil).SaveItem), item)
 }

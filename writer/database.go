@@ -68,7 +68,7 @@ func (d *DBClientHandler) createTableIfNotExist(tableName string) bool {
 	if d.tableExists(tableName) {
 		return false
 	}
-	_, err := d.DBClient.CreateTable(context.TODO(), d.buildCreateTableInput(tableName))
+	_, err := d.DBClient.Client.CreateTable(context.TODO(), d.buildCreateTableInput(tableName))
 	if err != nil {
 		panic(fmt.Sprintf("create table failed, %v", err))
 	}
@@ -76,7 +76,7 @@ func (d *DBClientHandler) createTableIfNotExist(tableName string) bool {
 }
 
 func (d *DBClientHandler) tableExists(name string) bool {
-	tables, err := d.DBClient.ListTables(context.TODO())
+	tables, err := d.DBClient.Client.ListTables(context.TODO(), &dynamodb.ListTablesInput{})
 	if err != nil {
 		panic(fmt.Sprintf("unable to list tables in DB, %v", err))
 	}

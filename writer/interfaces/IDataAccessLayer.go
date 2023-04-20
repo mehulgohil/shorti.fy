@@ -1,13 +1,10 @@
 package interfaces
 
 import (
-	"context"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/mehulgohil/shorti.fy/writer/models"
 )
 
 type IDataAccessLayer interface {
-	ListTables(ctx context.Context) (*dynamodb.ListTablesOutput, error)
-	CreateTable(ctx context.Context, input *dynamodb.CreateTableInput) (*dynamodb.CreateTableOutput, error)
-	PutItem(ctx context.Context, input *dynamodb.PutItemInput) (*dynamodb.PutItemOutput, error)
-	GetItem(ctx context.Context, input *dynamodb.GetItemInput) (*dynamodb.GetItemOutput, error)
+	GetItem(hashKey string) (models.URLTable, error)
+	SaveItem(item models.URLTable) error
 }

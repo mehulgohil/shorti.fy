@@ -1,12 +1,7 @@
 package services
 
 import (
-	"context"
 	"fmt"
-	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/mehulgohil/shorti.fy/writer/interfaces"
 	"github.com/mehulgohil/shorti.fy/writer/models"
 	"math/rand"
@@ -28,7 +23,7 @@ func (s *ShortifyWriterService) Writer(longURL string, userEmail string) (string
 	}
 
 	// creating item struct
-	err = s.upsertItemToTable(models.URLTable{
+	err = s.SaveItem(models.URLTable{
 		HashKey:        encodedString,
 		LongURL:        longURL,
 		CreatedAt:      time.Now(),
@@ -51,7 +46,7 @@ func (s *ShortifyWriterService) getUniqueHash(str string) (string, error) {
 			encodedString = encodedString[:7]
 		}
 
-		db, err := s.getItemFromDB(encodedString)
+		db, err := s.GetItem(encodedString)
 		if err != nil {
 			return "", err
 		}
@@ -62,42 +57,4 @@ func (s *ShortifyWriterService) getUniqueHash(str string) (string, error) {
 		str = str + strconv.Itoa(rand.Int())
 	}
 	return "", nil
-}
-
-func (s *ShortifyWriterService) upsertItemToTable(item models.URLTable) error {
-	marshedData, err := attributevalue.MarshalMap(item)
-	if err != nil {
-		return err
-	}
-
-	_, err = s.PutItem(context.Background(), &dynamodb.PutItemInput{
-		TableName: aws.String("URL"),
-		Item:      marshedData,
-	})
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// ================= Utility Functions
-func (s *ShortifyWriterService) getItemFromDB(hashKey string) (models.URLTable, error) {
-	tableItem := models.URLTable{}
-	item, err := s.GetItem(context.Background(), &dynamodb.GetItemInput{
-		TableName: aws.String("URL"),
-		Key: map[string]types.AttributeValue{
-			"HashKey": &types.AttributeValueMemberS{Value: hashKey},
-		},
-	})
-	if err != nil {
-		return tableItem, err
-	}
-
-	err = attributevalue.UnmarshalMap(item.Item, &tableItem)
-	if err != nil {
-		return tableItem, err
-	}
-
-	return tableItem, nil
 }
