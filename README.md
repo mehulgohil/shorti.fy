@@ -192,3 +192,8 @@ We have use swagger to document our apis.
 To log, we've used Zap
 
 >Ref: [Zap](https://github.com/uber-go/zap)
+
+#### 4. Mocking
+To mock interfaces, we have use gomock
+
+>Ref: [gomock](https://github.com/golang/mock)
