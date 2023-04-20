@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/mehulgohil/shorti.fy/redirect/pkg/storage/nosql"
+	"github.com/mehulgohil/shorti.fy/redirect/infrastructures"
 	"sync"
 )
 
@@ -22,7 +22,7 @@ type IDynamoDB interface {
 }
 
 type DBClientHandler struct {
-	DBClient *nosql.DynamoDBClient
+	DBClient *infrastructures.DynamoDBClient
 }
 
 // InitLocalDBConnection initialize dynamodb connection
@@ -40,7 +40,7 @@ func (d *DBClientHandler) InitLocalDBConnection() {
 	}
 
 	// Using the Config value, create the DynamoDB client
-	d.DBClient = &nosql.DynamoDBClient{
+	d.DBClient = &infrastructures.DynamoDBClient{
 		Client: dynamodb.NewFromConfig(cfg),
 	}
 }

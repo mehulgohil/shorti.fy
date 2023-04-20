@@ -1,4 +1,4 @@
-package nosql
+package infrastructures
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/mehulgohil/shorti.fy/writer/models"
+	"github.com/mehulgohil/shorti.fy/redirect/models"
 )
 
 type DynamoDBClient struct {
