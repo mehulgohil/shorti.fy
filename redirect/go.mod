@@ -9,8 +9,9 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.19.5
 	github.com/golang/mock v1.6.0
 	github.com/iris-contrib/swagger/v12 v12.0.1
+	github.com/jxskiss/base62 v1.1.0
 	github.com/kataras/iris/v12 v12.2.0
-	github.com/mehulgohil/shorti.fy/common v0.0.0-20230419062239-5f7de17d26c6
+	github.com/stretchr/testify v1.8.2
 	github.com/swaggo/swag v1.8.12
 	go.uber.org/zap v1.24.0
 )
@@ -78,7 +79,6 @@ require (
 	github.com/schollz/closestmatch v2.1.0+incompatible // indirect
 	github.com/sergi/go-diff v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
-	github.com/stretchr/testify v1.8.2 // indirect
 	github.com/tdewolff/minify/v2 v2.12.4 // indirect
 	github.com/tdewolff/parse/v2 v2.6.4 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect

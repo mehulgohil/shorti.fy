@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mehulgohil/shorti.fy/common/interfaces"
 	"github.com/mehulgohil/shorti.fy/redirect/controllers"
+	"github.com/mehulgohil/shorti.fy/redirect/interfaces"
 	"github.com/mehulgohil/shorti.fy/redirect/services"
 	"sync"
 )

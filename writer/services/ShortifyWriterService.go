@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/mehulgohil/shorti.fy/common/interfaces"
+	"github.com/mehulgohil/shorti.fy/writer/interfaces"
 	"github.com/mehulgohil/shorti.fy/writer/models"
 	"math/rand"
 	"strconv"

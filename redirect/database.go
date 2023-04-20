@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
-	"github.com/mehulgohil/shorti.fy/common/pkg/storage/nosql"
+	"github.com/mehulgohil/shorti.fy/redirect/pkg/storage/nosql"
 	"sync"
 )
 

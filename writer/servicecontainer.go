@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/mehulgohil/shorti.fy/common/interfaces"
-	"github.com/mehulgohil/shorti.fy/common/pkg/algorithm/encoding"
-	"github.com/mehulgohil/shorti.fy/common/pkg/algorithm/hashing"
 	"github.com/mehulgohil/shorti.fy/writer/controllers"
+	"github.com/mehulgohil/shorti.fy/writer/interfaces"
+	"github.com/mehulgohil/shorti.fy/writer/pkg/algorithm/encoding"
+	"github.com/mehulgohil/shorti.fy/writer/pkg/algorithm/hashing"
 	"github.com/mehulgohil/shorti.fy/writer/services"
 	"sync"
 )

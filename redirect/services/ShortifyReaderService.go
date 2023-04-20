@@ -7,7 +7,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/kataras/iris/v12/x/errors"
-	"github.com/mehulgohil/shorti.fy/common/interfaces"
+	"github.com/mehulgohil/shorti.fy/redirect/interfaces"
 	"github.com/mehulgohil/shorti.fy/redirect/models"
 )
 
