@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/mehulgohil/shorti.fy/writer/config"
 	_ "github.com/mehulgohil/shorti.fy/writer/docs"
 )
 
@@ -11,17 +12,17 @@ import (
 //	@BasePath		/
 func main() {
 	//initialize logger
-	InitializeLogger()
+	config.InitializeLogger()
 
 	//initialize DB
-	DynamoDB().InitLocalDBConnection()
-	DynamoDB().InitTables()
+	config.DynamoDB().InitLocalDBConnection()
+	config.DynamoDB().InitTables()
 
 	//initialize api routes
-	app := Router().InitRouter(DynamoDB().(*DBClientHandler).DBClient)
+	app := Router().InitRouter(config.DynamoDB().(*config.DBClientHandler).DBClient)
 
 	//initialize swagger routes
-	SwaggerRouter().InitSwaggerRouter(app)
+	config.SwaggerRouter().InitSwaggerRouter(app)
 
 	err := app.Listen(":8080")
 	if err != nil {

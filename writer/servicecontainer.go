@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/mehulgohil/shorti.fy/writer/config"
 	"github.com/mehulgohil/shorti.fy/writer/controllers"
 	"github.com/mehulgohil/shorti.fy/writer/interfaces"
 	"github.com/mehulgohil/shorti.fy/writer/pkg/algorithm/encoding"
@@ -34,7 +35,7 @@ func (sc *serviceContainer) InjectShortifyWriterController(dbClient interfaces.I
 			IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
 			IDataAccessLayer:   dbClient,                    //injecting db client
 		},
-		Logger: ZapLogger,
+		Logger: config.ZapLogger,
 	}
 }
 
