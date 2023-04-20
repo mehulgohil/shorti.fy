@@ -197,3 +197,8 @@ To log, we've used Zap
 To mock interfaces, we have use gomock
 
 >Ref: [gomock](https://github.com/golang/mock)
+
+#### 4. Redis
+We've used redis to cache the redirect urls.
+
+>Ref: [go-redis](https://github.com/redis/go-redis)
