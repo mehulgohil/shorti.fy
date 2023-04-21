@@ -113,3 +113,64 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 		assert.Equal(t, mockDBLongURL, longUrl)
 	})
 }
+
+func TestShortifyReaderService_incrementHitCount(t *testing.T) {
+	t.Parallel()
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	ZapLogger, _ := zap.NewDevelopment()
+
+	t.Run("error in get item", func(t *testing.T) {
+		t.Parallel()
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+		mockRedis := mocks.NewMockIRedisLayer(ctrl)
+
+		var mockReaderService = ShortifyReaderService{
+			mockDataAccess,
+			mockRedis,
+			ZapLogger,
+		}
+
+		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, errors.New(mockError)).Times(1)
+		err := mockReaderService.incrementHitCount("shortURL")
+
+		assert.Equal(t, mockError, err.Error())
+	})
+
+	t.Run("error in save item", func(t *testing.T) {
+		t.Parallel()
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+		mockRedis := mocks.NewMockIRedisLayer(ctrl)
+
+		var mockReaderService = ShortifyReaderService{
+			mockDataAccess,
+			mockRedis,
+			ZapLogger,
+		}
+
+		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, nil).Times(1)
+		mockDataAccess.EXPECT().SaveItem(gomock.Any()).Return(errors.New(mockError)).Times(1)
+		err := mockReaderService.incrementHitCount("shortURL")
+
+		assert.Equal(t, mockError, err.Error())
+	})
+
+	t.Run("positive test", func(t *testing.T) {
+		t.Parallel()
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+		mockRedis := mocks.NewMockIRedisLayer(ctrl)
+
+		var mockReaderService = ShortifyReaderService{
+			mockDataAccess,
+			mockRedis,
+			ZapLogger,
+		}
+
+		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, nil).Times(1)
+		mockDataAccess.EXPECT().SaveItem(gomock.Any()).Return(nil).Times(1)
+		err := mockReaderService.incrementHitCount("shortURL")
+
+		assert.Equal(t, nil, err)
+	})
+}
