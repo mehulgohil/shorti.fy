@@ -39,6 +39,17 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 		assert.Equal(t, mockError, err.Error())
 	})
 
+	t.Run("error in get item, 2nd iteration", func(t *testing.T) {
+		t.Parallel()
+		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockhash").Times(2)
+		mockEncodingAlgo.EXPECT().Encode(gomock.Any()).Return("mockencode").Times(2)
+		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{HashKey: "mockEnc"}, nil).Times(1)
+		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{HashKey: "mockEnc"}, errors.New(mockError)).Times(1)
+
+		_, err := mockWriterService.Writer("mock long", "mock email")
+		assert.Equal(t, mockError, err.Error())
+	})
+
 	t.Run("error in save item", func(t *testing.T) {
 		t.Parallel()
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockHash").Times(1)
