@@ -178,6 +178,26 @@ Probable Solutions:
 3. Given the fact that we will be selecting the first 7 characters,
 we still need to check the database if hashKey exists to avoid the collision.
 
+## Rate Limiting
+Rate Limiting helps
+to prevent the overloading of servers by limiting the number of requests that can be made in a given time frame.
+
+### Where to Put the Rate Limiter?
+#### 1. Server Side
+On the Server Side, we can put rate limiter before the API as middleware handler. 
+   This type of placement is not efficient if you have distrubuted architecture
+
+#### 2. Rate Limiter Middleware MicroService
+We can have a dedicated Rate Limiter Service, which throttles the request before it reaching the backend api servers.
+
+#### 3. Nginx Controller Rate Limiter
+If we're following K8s architectures, nginx gives a facility to rate limit out of the box.
+
+>Ref: 
+> 
+> https://systemsdesign.cloud/SystemDesign/RateLimiter
+> https://www.nginx.com/blog/microservices-march-protect-kubernetes-apis-with-rate-limiting/
+
 ### Coding Practices
 #### 1. Iris Web Framework
 In order to expose apis, we've used Iris Web Framework
