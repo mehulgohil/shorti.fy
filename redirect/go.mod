@@ -5,7 +5,7 @@ go 1.20
 require (
 	github.com/aws/aws-sdk-go-v2 v1.17.8
 	github.com/aws/aws-sdk-go-v2/config v1.18.21
-	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.10.21
+	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.10.22
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.19.5
 	github.com/golang/mock v1.6.0
 	github.com/iris-contrib/swagger/v12 v12.0.1
@@ -13,7 +13,7 @@ require (
 	github.com/kataras/iris/v12 v12.2.0
 	github.com/redis/go-redis/v9 v9.0.3
 	github.com/stretchr/testify v1.8.2
-	github.com/swaggo/swag v1.8.12
+	github.com/swaggo/swag v1.16.1
 	go.uber.org/zap v1.24.0
 )
 
@@ -94,8 +94,8 @@ require (
 	github.com/yosssi/ace v0.0.5 // indirect
 	github.com/yudai/gojsondiff v1.0.0 // indirect
 	github.com/yudai/golcs v0.0.0-20170316035057-ecda9a501e82 // indirect
-	go.uber.org/atomic v1.10.0 // indirect
-	go.uber.org/multierr v1.11.0 // indirect
+	go.uber.org/atomic v1.7.0 // indirect
+	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/crypto v0.7.0 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
