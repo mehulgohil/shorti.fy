@@ -1,8 +1,11 @@
 package services
 
 import (
+	"fmt"
 	"github.com/kataras/iris/v12/x/errors"
 	"github.com/mehulgohil/shorti.fy/redirect/interfaces"
+	"github.com/mehulgohil/shorti.fy/redirect/models"
+	"go.uber.org/zap"
 	"time"
 )
 
@@ -14,6 +17,7 @@ const (
 type ShortifyReaderService struct {
 	interfaces.IDataAccessLayer
 	interfaces.IRedisLayer
+	Logger *zap.Logger
 }
 
 // Reader get long url from db
@@ -21,7 +25,10 @@ func (s *ShortifyReaderService) Reader(shortURLHash string) (string, error) {
 	// increment the hitcount and update the item
 	defer func() {
 		go func() {
-			_ = s.incrementHitCount(shortURLHash)
+			err := s.incrementHitCount(shortURLHash)
+			if err != nil {
+				s.Logger.Error(fmt.Sprintf("error incrementing hitcount - %s", err.Error()))
+			}
 		}()
 	}()
 
@@ -42,9 +49,7 @@ func (s *ShortifyReaderService) Reader(shortURLHash string) (string, error) {
 	}
 
 	// caching data into redis with expiration of 2 months
-	go func() {
-		_ = s.SetKeyValue(shortURLHash, item.LongURL, twoMonthDuration)
-	}()
+	go s.cacheData(shortURLHash, item)
 
 	return item.LongURL, nil
 }
@@ -62,4 +67,11 @@ func (s *ShortifyReaderService) incrementHitCount(shortURLHash string) error {
 	}
 
 	return nil
+}
+
+func (s *ShortifyReaderService) cacheData(shortURLHash string, item models.URLTable) {
+	err := s.SetKeyValue(shortURLHash, item.LongURL, twoMonthDuration)
+	if err != nil {
+		s.Logger.Error(fmt.Sprintf("error caching value to redis - %s", err.Error()))
+	}
 }

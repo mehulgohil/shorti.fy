@@ -29,8 +29,9 @@ func (sc *serviceContainer) InjectShortifyReaderController(dbClient interfaces.I
 	// injecting service layer in controller
 	return controllers.ShortifyReaderController{
 		IShortifyReaderService: &services.ShortifyReaderService{
-			IDataAccessLayer: dbClient,    //injecting db client
-			IRedisLayer:      redisClient, //injecting redisClient
+			IDataAccessLayer: dbClient,         //injecting db client
+			IRedisLayer:      redisClient,      //injecting redisClient
+			Logger:           config.ZapLogger, //injecting zaplogger
 		},
 		Logger: config.ZapLogger,
 	}
