@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	twoMonthDuration = time.Hour * 1440
+	twoMonthDuration        = time.Hour * 1440
+	longUrlNotFoundErrorMsg = "long url not found, please check the short url and try again"
 )
 
 type ShortifyReaderService struct {
@@ -37,7 +38,7 @@ func (s *ShortifyReaderService) Reader(shortURLHash string) (string, error) {
 	}
 
 	if item.LongURL == "" {
-		return "", errors.New("long url not found, please check the short url and try again")
+		return "", errors.New(longUrlNotFoundErrorMsg)
 	}
 
 	// caching data into redis with expiration of 2 months
