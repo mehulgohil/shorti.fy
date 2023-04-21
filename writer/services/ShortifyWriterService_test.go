@@ -19,18 +19,18 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
-	mockEncodingAlgo := mocks.NewMockIEncodingAlgorithm(ctrl)
-	mockHashingAlgo := mocks.NewMockIHashingAlgorithm(ctrl)
-	mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
-
-	var mockWriterService = ShortifyWriterService{
-		mockEncodingAlgo,
-		mockHashingAlgo,
-		mockDataAccess,
-	}
-
 	t.Run("error in get item", func(t *testing.T) {
 		t.Parallel()
+		mockEncodingAlgo := mocks.NewMockIEncodingAlgorithm(ctrl)
+		mockHashingAlgo := mocks.NewMockIHashingAlgorithm(ctrl)
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+
+		var mockWriterService = ShortifyWriterService{
+			mockEncodingAlgo,
+			mockHashingAlgo,
+			mockDataAccess,
+		}
+
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockhash").Times(1)
 		mockEncodingAlgo.EXPECT().Encode(gomock.Any()).Return("mockencode").Times(1)
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, errors.New(mockError)).Times(1)
@@ -41,6 +41,16 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 
 	t.Run("error in get item, 2nd iteration", func(t *testing.T) {
 		t.Parallel()
+		mockEncodingAlgo := mocks.NewMockIEncodingAlgorithm(ctrl)
+		mockHashingAlgo := mocks.NewMockIHashingAlgorithm(ctrl)
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+
+		var mockWriterService = ShortifyWriterService{
+			mockEncodingAlgo,
+			mockHashingAlgo,
+			mockDataAccess,
+		}
+
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockhash").Times(2)
 		mockEncodingAlgo.EXPECT().Encode(gomock.Any()).Return("mockencode").Times(2)
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{HashKey: "mockEnc"}, nil).Times(1)
@@ -52,6 +62,16 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 
 	t.Run("error in save item", func(t *testing.T) {
 		t.Parallel()
+		mockEncodingAlgo := mocks.NewMockIEncodingAlgorithm(ctrl)
+		mockHashingAlgo := mocks.NewMockIHashingAlgorithm(ctrl)
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+
+		var mockWriterService = ShortifyWriterService{
+			mockEncodingAlgo,
+			mockHashingAlgo,
+			mockDataAccess,
+		}
+
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockHash").Times(1)
 		mockEncodingAlgo.EXPECT().Encode(gomock.Any()).Return("mockEncode").Times(1)
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, nil).Times(1)
@@ -63,6 +83,16 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 
 	t.Run("positive test", func(t *testing.T) {
 		t.Parallel()
+		mockEncodingAlgo := mocks.NewMockIEncodingAlgorithm(ctrl)
+		mockHashingAlgo := mocks.NewMockIHashingAlgorithm(ctrl)
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+
+		var mockWriterService = ShortifyWriterService{
+			mockEncodingAlgo,
+			mockHashingAlgo,
+			mockDataAccess,
+		}
+
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockHash").Times(1)
 		mockEncodingAlgo.EXPECT().Encode(gomock.Any()).Return("mockEncode").Times(1)
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, nil).Times(1)
