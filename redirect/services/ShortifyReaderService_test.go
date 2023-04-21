@@ -20,20 +20,21 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 	defer ctrl.Finish()
 
 	ZapLogger, _ := zap.NewDevelopment()
-	mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
-	mockRedis := mocks.NewMockIRedisLayer(ctrl)
-
-	var mockReaderService = ShortifyReaderService{
-		mockDataAccess,
-		mockRedis,
-		ZapLogger,
-	}
 
 	mockRedisLongURL := "mockRedisLongURL"
 	mockDBLongURL := "mockDBLongURL"
 
 	t.Run("positive test - got values from redis", func(t *testing.T) {
 		t.Parallel()
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+		mockRedis := mocks.NewMockIRedisLayer(ctrl)
+
+		var mockReaderService = ShortifyReaderService{
+			mockDataAccess,
+			mockRedis,
+			ZapLogger,
+		}
+
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, nil).Times(1)
 
 		//defer statement mock
@@ -48,6 +49,15 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 	// getting from db
 	t.Run("error in get value from DB", func(t *testing.T) {
 		t.Parallel()
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+		mockRedis := mocks.NewMockIRedisLayer(ctrl)
+
+		var mockReaderService = ShortifyReaderService{
+			mockDataAccess,
+			mockRedis,
+			ZapLogger,
+		}
+
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, errors.New(mockError)).Times(1)
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, errors.New(mockError)).Times(1)
 
@@ -60,6 +70,15 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 
 	t.Run("empty value from DB error", func(t *testing.T) {
 		t.Parallel()
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+		mockRedis := mocks.NewMockIRedisLayer(ctrl)
+
+		var mockReaderService = ShortifyReaderService{
+			mockDataAccess,
+			mockRedis,
+			ZapLogger,
+		}
+
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, errors.New(mockError)).Times(1)
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, nil).Times(1)
 
@@ -72,6 +91,15 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 
 	t.Run("positive test", func(t *testing.T) {
 		t.Parallel()
+		mockDataAccess := mocks.NewMockIDataAccessLayer(ctrl)
+		mockRedis := mocks.NewMockIRedisLayer(ctrl)
+
+		var mockReaderService = ShortifyReaderService{
+			mockDataAccess,
+			mockRedis,
+			ZapLogger,
+		}
+
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, errors.New(mockError)).Times(1)
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{LongURL: mockDBLongURL}, nil).Times(1)
 
