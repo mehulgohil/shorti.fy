@@ -190,6 +190,8 @@ On the Server Side, we can put rate limiter before the API as middleware handler
 #### 2. Rate Limiter Middleware MicroService
 We can have a dedicated Rate Limiter Service, which throttles the request before it reaching the backend api servers.
 
+![img.png](.attachments/RateLimiterMiddleware.png)
+
 #### 3. Nginx Controller Rate Limiter
 If we're following K8s architectures, nginx gives a facility to rate limit out of the box.
 
