@@ -19,6 +19,7 @@ var (
 type IDynamoDB interface {
 	InitLocalDBConnection()
 	InitTables()
+	InitAWSDBConnection()
 }
 
 type DBClientHandler struct {
@@ -40,6 +41,21 @@ func (d *DBClientHandler) InitLocalDBConnection() {
 	}
 
 	// Using the Config value, create the DynamoDB client
+	d.DBClient = &infrastructures.DynamoDBClient{
+		Client: dynamodb.NewFromConfig(cfg),
+	}
+}
+
+func (d *DBClientHandler) InitAWSDBConnection() {
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
+		o.Region = "ap-south-1"
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+
 	d.DBClient = &infrastructures.DynamoDBClient{
 		Client: dynamodb.NewFromConfig(cfg),
 	}

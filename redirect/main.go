@@ -17,7 +17,7 @@ func main() {
 	config.LoadEnvVariables()
 
 	//initialize DB
-	config.DynamoDB().InitLocalDBConnection()
+	config.DynamoDB().InitAWSDBConnection()
 	config.DynamoDB().InitTables()
 
 	//initialize redis
