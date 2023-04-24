@@ -3,6 +3,15 @@
 This is the redirect microservice, that will redirect the short url to long url
 
 ## Get Started
+
+### Set Env Variables
+```shell
+export APP_PORT=80
+export DYNAMO_DB_URL=http://localhost:8000
+export REDIS_HOST=localhost:6379
+export REDIS_PASSWORD=
+```
+
 ### Backend Setup
 ```shell
 go mod download
