@@ -10,6 +10,8 @@ export APP_PORT=80
 export DYNAMO_DB_URL=http://localhost:8000
 export REDIS_HOST=localhost:6379
 export REDIS_PASSWORD=
+export AWS_ACCESS_KEY_ID=<AWS ACCESS ID>
+export AWS_SECRET_ACCESS_TOKEN=<AWS SECRET ACCESS TOKEN>
 ```
 
 ### Backend Setup
@@ -19,13 +21,9 @@ go run .
 ```
 
 ### Database Setup
-We've used DynamoDB as the database to store the URLs.
-Initial Configuration will require you to set up the DynamoDB in your local.
+We have used local redis to cache the data
 
-1. Install Docker Desktop 
-2. ```shell
-    docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
-   ```
-3. ```shell
+1. Install Docker Desktop
+2```shell
     docker run --name redis-local -p 6379:6379 -d redis
     ```
