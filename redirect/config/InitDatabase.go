@@ -17,17 +17,31 @@ var (
 )
 
 type IDynamoDB interface {
-	InitLocalDBConnection()
+	InitDBConnection()
 	InitTables()
-	InitAWSDBConnection()
 }
 
 type DBClientHandler struct {
 	DBClient *infrastructures.DynamoDBClient
 }
 
+func (d *DBClientHandler) InitDBConnection() {
+	if EnvVariables.AWSSecretAccessToken != "" {
+		d.initAWSDBConnection()
+		ZapLogger.Info("AWS DynamoDB Client Initiated")
+		return
+	}
+	if EnvVariables.DynamoDBURL != "" {
+		d.initLocalDBConnection()
+		ZapLogger.Info("Local DynamoDB Client Initiated")
+		return
+	}
+	panic("no credential for DB connection found, please check the environment variables ")
+
+}
+
 // InitLocalDBConnection initialize dynamodb connection
-func (d *DBClientHandler) InitLocalDBConnection() {
+func (d *DBClientHandler) initLocalDBConnection() {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithRegion("us-east-1"),
 		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
@@ -46,7 +60,7 @@ func (d *DBClientHandler) InitLocalDBConnection() {
 	}
 }
 
-func (d *DBClientHandler) InitAWSDBConnection() {
+func (d *DBClientHandler) initAWSDBConnection() {
 
 	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
 		o.Region = "ap-south-1"
