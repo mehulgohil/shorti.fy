@@ -32,5 +32,5 @@ jobs:
         ECR_REPOSITORY: shortify-redirect
         IMAGE_TAG: shortify-redirect
       run: |
-        docker build . --file redirect/Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:$(date +%s) .
+        docker build --file redirect/Dockerfile --tag $ECR_REGISTRY/$ECR_REPOSITORY:$(date +%s) .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$(date +%s)
