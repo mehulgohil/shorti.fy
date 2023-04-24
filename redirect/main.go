@@ -13,6 +13,8 @@ import (
 func main() {
 	//initialize logger
 	config.InitializeLogger()
+	//initialize env variables
+	config.LoadEnvVariables()
 
 	//initialize DB
 	config.DynamoDB().InitLocalDBConnection()
@@ -27,7 +29,7 @@ func main() {
 	//initialize swagger routes
 	config.SwaggerRouter().InitSwaggerRouter(app)
 
-	err := app.Listen(":80")
+	err := app.Listen(":" + config.EnvVariables.AppPort)
 	if err != nil {
 		panic("unable to start server")
 	}

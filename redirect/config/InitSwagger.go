@@ -21,7 +21,7 @@ type swaggerRouter struct{}
 // InitSwaggerRouter initialize swagger route
 func (s *swaggerRouter) InitSwaggerRouter(app *iris.Application) {
 	swaggerConfig := &swagger.Config{
-		URL:         "http://localhost:8081/swagger/doc.json",
+		URL:         "http://localhost:" + EnvVariables.AppPort + "/swagger/doc.json",
 		DeepLinking: true,
 	}
 	app.Get("/swagger/{any:path}", swagger.CustomWrapHandler(swaggerConfig, swaggerFiles.Handler))

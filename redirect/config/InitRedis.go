@@ -22,9 +22,9 @@ type RedisHandler struct {
 func (r *RedisHandler) InitRedisConnection() {
 	r.RedisClient = &infrastructures.RedisClient{
 		Client: redis.NewClient(&redis.Options{
-			Addr:     "localhost:6379",
-			Password: "", // no password set
-			DB:       0,  // use default DB
+			Addr:     EnvVariables.RedisHost,
+			Password: EnvVariables.RedisPassword, // no password set
+			DB:       0,                          // use default DB
 		}),
 	}
 }
