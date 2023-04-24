@@ -7,6 +7,9 @@
 ![docker-image-writer](https://github.com//mehulgohil/shorti.fy/actions/workflows/test-coverage-writer.yml/badge.svg)
 ![docker-image-redirect](https://github.com//mehulgohil/shorti.fy/actions/workflows/test-coverage-redirect.yml/badge.svg)
 
+## Get Started
+1. [Writer Service](https://github.com/mehulgohil/shorti.fy/blob/main/writer/README.md)
+2. [Redirect Service](https://github.com/mehulgohil/shorti.fy/blob/main/redirect/README.md)
 
 ## What is URL Shortening System?
 In layman's terms, URL Shortening is a service we can shorten the original link.
