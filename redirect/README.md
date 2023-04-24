@@ -7,11 +7,12 @@ This is the redirect microservice, that will redirect the short url to long url
 ### Set Env Variables
 ```shell
 export APP_PORT=80
-export DYNAMO_DB_URL=http://localhost:8000
+export DYNAMO_DB_URL=http://localhost:8000 #if dynamodb is running on local
 export REDIS_HOST=localhost:6379
 export REDIS_PASSWORD=
 export AWS_ACCESS_KEY_ID=<AWS ACCESS ID>
 export AWS_SECRET_ACCESS_TOKEN=<AWS SECRET ACCESS TOKEN>
+export AWS_REGION=ap-south-1
 ```
 
 ### Backend Setup
