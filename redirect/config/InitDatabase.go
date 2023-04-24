@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/mehulgohil/shorti.fy/redirect/infrastructures"
@@ -26,7 +27,7 @@ type DBClientHandler struct {
 }
 
 func (d *DBClientHandler) InitDBConnection() {
-	if EnvVariables.AWSSecretAccessToken != "" {
+	if EnvVariables.AWSAccessKeyID != "" && EnvVariables.AWSSecretAccessToken != "" {
 		d.initAWSDBConnection()
 		ZapLogger.Info("AWS DynamoDB Client Initiated")
 		return
@@ -43,7 +44,7 @@ func (d *DBClientHandler) InitDBConnection() {
 // InitLocalDBConnection initialize dynamodb connection
 func (d *DBClientHandler) initLocalDBConnection() {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion("us-east-1"),
+		config.WithRegion(EnvVariables.AWSRegion),
 		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
 			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 				return aws.Endpoint{URL: EnvVariables.DynamoDBURL}, nil
@@ -63,7 +64,8 @@ func (d *DBClientHandler) initLocalDBConnection() {
 func (d *DBClientHandler) initAWSDBConnection() {
 
 	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
-		o.Region = "ap-south-1"
+		o.Region = EnvVariables.AWSRegion
+		o.Credentials = credentials.NewStaticCredentialsProvider(EnvVariables.AWSAccessKeyID, EnvVariables.AWSSecretAccessToken, "")
 		return nil
 	})
 	if err != nil {
