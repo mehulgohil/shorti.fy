@@ -28,3 +28,4 @@ If you want to run dynamodb on local, follow the below steps
    docker run -p 8000:8000 amazon/dynamodb-local -jar DynamoDBLocal.jar -sharedDb
    ```
    
+   
