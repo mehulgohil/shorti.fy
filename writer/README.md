@@ -7,7 +7,10 @@ This is the writer microservice, that will help to register and shorten the long
 ### Set Env Variables
 ```shell
 export APP_PORT=80
-export DYNAMO_DB_URL=http://localhost:8000
+export DYNAMO_DB_URL=http://localhost:8000 #if dynamodb is running on local
+export AWS_ACCESS_KEY_ID=<AWS ACCESS ID>
+export AWS_SECRET_ACCESS_TOKEN=<AWS SECRET ACCESS TOKEN> # if dynamodb running on aws
+export AWS_REGION=ap-south-1
 ```
 
 ### Backend Setup
@@ -18,7 +21,7 @@ go run .
 
 ### Database Setup
 We've used DynamoDB as the database to store the URLs.
-Initial Configuration will require you to set up the DynamoDB in your local.
+If you want to run dynamodb on local, follow the below steps
 
 1. Install Docker Desktop
 2. ```shell

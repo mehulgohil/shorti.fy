@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/mehulgohil/shorti.fy/writer/infrastrctures"
@@ -17,18 +18,33 @@ var (
 )
 
 type IDynamoDB interface {
-	InitLocalDBConnection()
+	InitDBConnection()
 	InitTables()
+}
+
+func (d *DBClientHandler) InitDBConnection() {
+	if EnvVariables.AWSSecretAccessToken != "" {
+		d.initAWSDBConnection()
+		ZapLogger.Info("AWS DynamoDB Client Initiated")
+		return
+	}
+	if EnvVariables.DynamoDBURL != "" {
+		d.initLocalDBConnection()
+		ZapLogger.Info("Local DynamoDB Client Initiated")
+		return
+	}
+	panic("no credential for DB connection found, please check the environment variables ")
+
 }
 
 type DBClientHandler struct {
 	DBClient *infrastrctures.DynamoDBClient
 }
 
-// InitLocalDBConnection initialize dynamodb connection
-func (d *DBClientHandler) InitLocalDBConnection() {
+// initLocalDBConnection initialize local dynamodb connection
+func (d *DBClientHandler) initLocalDBConnection() {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion("us-east-1"),
+		config.WithRegion(EnvVariables.AWSRegion),
 		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
 			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
 				return aws.Endpoint{URL: EnvVariables.DynamoDBURL}, nil
@@ -40,6 +56,23 @@ func (d *DBClientHandler) InitLocalDBConnection() {
 	}
 
 	// Using the Config value, create the DynamoDB client
+	d.DBClient = &infrastrctures.DynamoDBClient{
+		Client: dynamodb.NewFromConfig(cfg),
+	}
+}
+
+// initAWSDBConnection initialize aws dynamodb connection
+func (d *DBClientHandler) initAWSDBConnection() {
+
+	cfg, err := config.LoadDefaultConfig(context.TODO(), func(o *config.LoadOptions) error {
+		o.Region = EnvVariables.AWSRegion
+		o.Credentials = credentials.NewStaticCredentialsProvider(EnvVariables.AWSAccessKeyID, EnvVariables.AWSSecretAccessToken, "")
+		return nil
+	})
+	if err != nil {
+		panic(err)
+	}
+
 	d.DBClient = &infrastrctures.DynamoDBClient{
 		Client: dynamodb.NewFromConfig(cfg),
 	}
