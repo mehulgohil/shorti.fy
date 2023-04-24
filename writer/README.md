@@ -3,6 +3,13 @@
 This is the writer microservice, that will help to register and shorten the long url
 
 ## Get Started
+
+### Set Env Variables
+```shell
+export APP_PORT=80
+export DYNAMO_DB_URL=http://localhost:8000
+```
+
 ### Backend Setup
 ```shell
 go mod download

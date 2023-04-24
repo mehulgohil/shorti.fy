@@ -31,7 +31,7 @@ func (d *DBClientHandler) InitLocalDBConnection() {
 		config.WithRegion("us-east-1"),
 		config.WithEndpointResolverWithOptions(aws.EndpointResolverWithOptionsFunc(
 			func(service, region string, options ...interface{}) (aws.Endpoint, error) {
-				return aws.Endpoint{URL: "http://localhost:8000"}, nil
+				return aws.Endpoint{URL: EnvVariables.DynamoDBURL}, nil
 			})),
 	)
 

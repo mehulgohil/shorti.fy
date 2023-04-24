@@ -5,14 +5,16 @@ import (
 	_ "github.com/mehulgohil/shorti.fy/writer/docs"
 )
 
-//	@title			shorti.fy
-//	@version		1.0
-//	@description	This is a backend api application for shorti.fy.
-//	@host			localhost:8080
-//	@BasePath		/
+// @title			shorti.fy
+// @version		1.0
+// @description	This is a backend api application for shorti.fy.
+// @host			localhost:8080
+// @BasePath		/
 func main() {
 	//initialize logger
 	config.InitializeLogger()
+	//initialize env variables
+	config.LoadEnvVariables()
 
 	//initialize DB
 	config.DynamoDB().InitLocalDBConnection()
@@ -24,7 +26,7 @@ func main() {
 	//initialize swagger routes
 	config.SwaggerRouter().InitSwaggerRouter(app)
 
-	err := app.Listen(":8080")
+	err := app.Listen(":" + config.EnvVariables.AppPort)
 	if err != nil {
 		panic("unable to start server")
 	}
