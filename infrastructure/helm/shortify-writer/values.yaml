@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: 746197788434.dkr.ecr.ap-south-1.amazonaws.com/shortify-writer:latest
-  pullPolicy: Never
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
@@ -87,3 +87,5 @@ config:
   awsRegion: "ap-south-1"
   awsAccessID: ""
   awsAccessToken: ""
+  awsAccount: "746197788434"
+  dockerSecretName: "regcred"

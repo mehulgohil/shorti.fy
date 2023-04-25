@@ -14,6 +14,8 @@ spec:
       labels:
         {{- include "shortify-writer.selectorLabels" . | nindent 8 }}
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: {{ .Chart.Name }}
           image: {{ .Values.image.repository }}
