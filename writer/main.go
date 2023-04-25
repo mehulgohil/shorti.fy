@@ -13,6 +13,9 @@ import (
 func main() {
 	//initialize logger
 	config.InitializeLogger()
+
+	config.ZapLogger.Info("Initializing Shortify Writer Service...")
+
 	//initialize env variables
 	config.LoadEnvVariables()
 
