@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "shortify-writer.labels" . | nindent 4 }}
+  name: {{ include "shortify-writer.name" . }}
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.service.targetPort }}
+  selector:
+    {{- include "shortify-writer.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.service.type }}
