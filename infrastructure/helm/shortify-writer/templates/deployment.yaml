@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "shortify-writer.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "shortify-writer.selectorLabels" . | nindent 6 }}
