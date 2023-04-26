@@ -23,7 +23,7 @@ WORKDIR /
 
 COPY --from=build-stage /shortify-redirect /shortify-redirect
 
-EXPOSE 80
+EXPOSE 8080
 
 USER nonroot:nonroot
 
