@@ -4,6 +4,7 @@ metadata:
   labels:
     {{- include "shortify-writer.labels" . | nindent 4 }}
   name: {{ include "shortify-writer.name" . }}
+  namespace: {{ include "shortify-writer.name" . }}
 spec:
   ports:
     - name: http
