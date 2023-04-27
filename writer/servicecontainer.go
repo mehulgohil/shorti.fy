@@ -34,6 +34,7 @@ func (sc *serviceContainer) InjectShortifyWriterController(dbClient interfaces.I
 			IEncodingAlgorithm: &encoding.Base62Algorithm{}, //injecting base62 as the encoding algorithm
 			IHashingAlgorithm:  &hashing.MD5Hash{},          //injecting md5 as hashing algorithm
 			IDataAccessLayer:   dbClient,                    //injecting db client
+			EnvVariables:       config.EnvVariables,         //injecting env variables
 		},
 		Logger: config.ZapLogger,
 	}

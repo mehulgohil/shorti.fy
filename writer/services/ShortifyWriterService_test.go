@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/golang/mock/gomock"
 	"github.com/kataras/iris/v12/x/errors"
+	"github.com/mehulgohil/shorti.fy/writer/config"
 	"github.com/mehulgohil/shorti.fy/writer/interfaces/mocks"
 	"github.com/mehulgohil/shorti.fy/writer/models"
 	"github.com/stretchr/testify/assert"
@@ -19,6 +20,10 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
+	mockEnvVariables := config.EnvConfig{
+		APPDomain: "http://localhost:8080",
+	}
+
 	t.Run("error in get item", func(t *testing.T) {
 		t.Parallel()
 		mockEncodingAlgo := mocks.NewMockIEncodingAlgorithm(ctrl)
@@ -29,6 +34,7 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 			mockEncodingAlgo,
 			mockHashingAlgo,
 			mockDataAccess,
+			mockEnvVariables,
 		}
 
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockhash").Times(1)
@@ -49,6 +55,7 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 			mockEncodingAlgo,
 			mockHashingAlgo,
 			mockDataAccess,
+			mockEnvVariables,
 		}
 
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockhash").Times(2)
@@ -70,6 +77,7 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 			mockEncodingAlgo,
 			mockHashingAlgo,
 			mockDataAccess,
+			mockEnvVariables,
 		}
 
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockHash").Times(1)
@@ -91,6 +99,7 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 			mockEncodingAlgo,
 			mockHashingAlgo,
 			mockDataAccess,
+			mockEnvVariables,
 		}
 
 		mockHashingAlgo.EXPECT().Hash(gomock.Any()).Return("mockHash").Times(1)
@@ -100,6 +109,6 @@ func TestShortifyWriterService_Writer(t *testing.T) {
 
 		res, err := mockWriterService.Writer("mock long", "mock email")
 		assert.Equal(t, nil, err)
-		assert.Equal(t, fmt.Sprintf("http://localhost:80/v1/%s", "mockEnc"), res)
+		assert.Equal(t, fmt.Sprintf("http://localhost:8080/v1/%s", "mockEnc"), res)
 	})
 }

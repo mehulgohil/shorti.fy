@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"github.com/mehulgohil/shorti.fy/writer/config"
 	"github.com/mehulgohil/shorti.fy/writer/interfaces"
 	"github.com/mehulgohil/shorti.fy/writer/models"
 	"math/rand"
@@ -13,6 +14,7 @@ type ShortifyWriterService struct {
 	interfaces.IEncodingAlgorithm
 	interfaces.IHashingAlgorithm
 	interfaces.IDataAccessLayer
+	EnvVariables config.EnvConfig
 }
 
 // Writer shortens the long url and returns a short url
@@ -35,7 +37,7 @@ func (s *ShortifyWriterService) Writer(longURL string, userEmail string) (string
 		return "", err
 	}
 
-	return fmt.Sprintf("http://localhost:80/v1/%s", encodedString), nil
+	return fmt.Sprintf("%s/v1/%s", s.EnvVariables.APPDomain, encodedString), nil
 }
 
 func (s *ShortifyWriterService) getUniqueHash(str string) (string, error) {
