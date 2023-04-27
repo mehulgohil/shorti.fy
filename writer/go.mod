@@ -5,10 +5,12 @@ go 1.20
 require (
 	github.com/aws/aws-sdk-go-v2 v1.17.8
 	github.com/aws/aws-sdk-go-v2/config v1.18.21
+	github.com/aws/aws-sdk-go-v2/credentials v1.13.20
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.10.22
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.19.5
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/golang/mock v1.6.0
+	github.com/iris-contrib/middleware/cors v0.0.0-20230311205048-b568fe9b470f
 	github.com/iris-contrib/swagger/v12 v12.0.1
 	github.com/jxskiss/base62 v1.1.0
 	github.com/kataras/iris/v12 v12.2.0
@@ -28,7 +30,6 @@ require (
 	github.com/Shopify/goreferrer v0.0.0-20220729165902-8cddb4f5de06 // indirect
 	github.com/ajg/form v1.5.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/aws/aws-sdk-go-v2/credentials v1.13.20 // indirect
 	github.com/aws/aws-sdk-go-v2/feature/ec2/imds v1.13.2 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/configsources v1.1.32 // indirect
 	github.com/aws/aws-sdk-go-v2/internal/endpoints/v2 v2.4.26 // indirect
@@ -73,7 +74,6 @@ require (
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
-	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/sanity-io/litter v1.5.5 // indirect
@@ -102,6 +102,7 @@ require (
 	golang.org/x/tools v0.7.0 // indirect
 	google.golang.org/protobuf v1.29.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/tomb.v1 v1.0.0-20141024135613-dd632973f1e7 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	moul.io/http2curl/v2 v2.3.0 // indirect
