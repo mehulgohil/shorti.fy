@@ -1,4 +1,4 @@
-name: Redirect Docker Image CI
+name: Frontend Docker Image CI
 
 on:
   push:
