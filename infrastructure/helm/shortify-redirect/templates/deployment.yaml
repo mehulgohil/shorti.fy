@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "shortify-writer.name" . }}
-  namespace: {{ include "shortify-writer.name" . }}
+  name: {{ include "shortify-redirect.name" . }}
+  namespace: {{ include "shortify-redirect.name" . }}
   labels:
-    {{- include "shortify-writer.labels" . | nindent 4 }}
+    {{- include "shortify-redirect.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "shortify-writer.selectorLabels" . | nindent 6 }}
+      {{- include "shortify-redirect.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "shortify-writer.selectorLabels" . | nindent 8 }}
+        {{- include "shortify-redirect.selectorLabels" . | nindent 8 }}
     spec:
       {{- if .Values.imagePullSecrets}}
       imagePullSecrets:
@@ -27,7 +27,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
-                name: {{ include "shortify-writer.name" . }}
+                name: {{ include "shortify-redirect.name" . }}
             - secretRef:
-                name: {{ include "shortify-writer.name" . }}
+                name: {{ include "shortify-redirect.name" . }}
           resources: {}
