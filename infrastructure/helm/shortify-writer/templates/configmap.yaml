@@ -6,4 +6,5 @@ metadata:
 data:
   APP_PORT: "{{ .Values.config.appPort }}"
   AWS_REGION: "{{ .Values.config.awsRegion }}"
+  APP_DOMAIN: "{{ .Values.config.appDomain }}"
 
