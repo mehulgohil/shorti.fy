@@ -89,3 +89,4 @@ config:
   awsAccessToken: ""
   awsAccount: "746197788434"
   dockerSecretName: "regcred"
+  appDomain: "a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com"
