@@ -6,6 +6,7 @@ function ShortenURL() {
   const [email, setEmail] = useState<string>();
 
   let writerServiceEndpoint = process.env.REACT_APP_WRITER_SERVICE_ENDPOINT
+  console.log(writerServiceEndpoint)
 
   const onFieldValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, fieldType: string) => {
     switch (fieldType) {
@@ -27,13 +28,13 @@ function ShortenURL() {
         "user_email": email
       })
     };
-    if (writerServiceEndpoint !== undefined) {
-      const response = await fetch(writerServiceEndpoint+"/v1/shorten", requestOptions);
+    // if (writerServiceEndpoint !== undefined) {
+      const response = await fetch("a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com"+"/v1/shorten", requestOptions);
       const data = await response.json();
       alert(JSON.stringify(data))
-    } else {
-      alert("backend api url not defined")
-    }
+    // } else {
+    //   alert("backend api url not defined")
+    // }
   }
 
   return (
