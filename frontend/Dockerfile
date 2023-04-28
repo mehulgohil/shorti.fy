@@ -1,10 +1,17 @@
-FROM node:alpine
+# stage 1
+
+FROM node:18.12.1-alpine as build
 WORKDIR /app
+COPY ./frontend .
+RUN npm ci
+RUN npm run build
 
-COPY ./frontend ./
+# stage 2
 
-RUN npm i
+FROM nginx:1.22.1-alpine as production
+ENV NODE_ENV production
+COPY --from=build /app/build /usr/share/nginx/html
+COPY ./frontend/nginx.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 3000
-
-CMD ["npm", "run", "start"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
