@@ -29,7 +29,7 @@ function ShortenURL() {
       })
     };
     // if (writerServiceEndpoint !== undefined) {
-      const response = await fetch("a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com"+"/v1/shorten", requestOptions);
+      const response = await fetch("https://a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com"+"/v1/shorten", requestOptions);
       const data = await response.json();
       alert(JSON.stringify(data))
     // } else {
