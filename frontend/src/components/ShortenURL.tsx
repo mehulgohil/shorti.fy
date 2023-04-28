@@ -30,7 +30,7 @@ function ShortenURL(props: ShortenURLProps) {
         "user_email": email
       })
     };
-    const response = await fetch("http://a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com/v1/shorten", requestOptions);
+    const response = await fetch("https://a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com/v1/shorten", requestOptions);
 
     if(response.ok) {
       const data = JSON.stringify(await response.json());
