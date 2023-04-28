@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "shortify-frontend.name" . }}
+  namespace: {{ include "shortify-frontend.name" . }}
+data:
+  APP_PORT: "{{ .Values.config.appPort }}"
+  REACT_APP_WRITER_SERVICE_ENDPOINT: "{{ .Values.config.writerServiceEndpoint }}"
+

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "shortify-frontend.name" . }}
+  namespace: {{ include "shortify-frontend.name" . }}
+  labels:
+    {{- include "shortify-frontend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "shortify-frontend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "shortify-frontend.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecrets}}
+      imagePullSecrets:
+        {{- range $v := .Values.imagePullSecrets }}
+        - name: {{ $v }}
+        {{- end}}
+      {{- end}}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "shortify-frontend.name" . }}
+          resources: {}
