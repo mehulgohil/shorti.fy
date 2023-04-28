@@ -1,12 +1,14 @@
 import {Button, FormControl, Grid, TextField} from "@mui/material";
 import React, {useState} from "react";
+import {ShortenURLS} from "../models/models";
 
-function ShortenURL() {
+interface ShortenURLProps {
+  setAllURLS: React.Dispatch<React.SetStateAction<ShortenURLS[]>>
+}
+
+function ShortenURL(props: ShortenURLProps) {
   const [longURL, setLongURL] = useState<string>();
   const [email, setEmail] = useState<string>();
-
-  let writerServiceEndpoint = process.env.REACT_APP_WRITER_SERVICE_ENDPOINT
-  console.log(writerServiceEndpoint)
 
   const onFieldValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, fieldType: string) => {
     switch (fieldType) {
@@ -28,13 +30,16 @@ function ShortenURL() {
         "user_email": email
       })
     };
-    // if (writerServiceEndpoint !== undefined) {
-      const response = await fetch("http://a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com"+"/v1/shorten", requestOptions);
-      const data = await response.json();
-      alert(JSON.stringify(data))
-    // } else {
-    //   alert("backend api url not defined")
-    // }
+    const response = await fetch("http://a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com/v1/shorten", requestOptions);
+
+    if(response.ok) {
+      const data = JSON.stringify(await response.json());
+      const repo = JSON.parse(data)
+      props.setAllURLS(prevState => [...prevState, {LongURL: repo.long_url, ShortURL: repo.short_url}])
+    } else {
+      console.error(JSON.stringify(await response.json()))
+      alert("error shortening url")
+    }
   }
 
   return (
