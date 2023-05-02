@@ -6,4 +6,7 @@ metadata:
 data:
   APP_PORT: "{{ .Values.config.appPort }}"
   AWS_REGION: "{{ .Values.config.awsRegion }}"
+  REDIS_HOST: {{ .Values.config.redisHost }}
+  REDIS_PASSWORD: {{ .Values.config.redisPassword }}
+
 
