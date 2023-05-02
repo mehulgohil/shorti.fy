@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    {{- include "shortify-redis.labels" . | nindent 4 }}
+  name: {{ include "shortify-redis.name" . }}
+  namespace: {{ include "shortify-redis.name" . }}
+spec:
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      protocol: TCP
+      targetPort: {{ .Values.service.targetPort }}
+  selector:
+    {{- include "shortify-redis.selectorLabels" . | nindent 4 }}
+  type: {{ .Values.service.type }}

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "shortify-redis.name" . }}
+  namespace: {{ include "shortify-redis.name" . }}
+  labels:
+    {{- include "shortify-redis.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "shortify-redis.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "shortify-redis.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecrets}}
+      imagePullSecrets:
+        {{- range $v := .Values.imagePullSecrets }}
+        - name: {{ $v }}
+        {{- end}}
+      {{- end}}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ .Values.image.repository }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources: {}
