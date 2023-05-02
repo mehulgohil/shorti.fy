@@ -22,12 +22,16 @@ type ShortifyReaderService struct {
 
 // Reader get long url from db
 func (s *ShortifyReaderService) Reader(shortURLHash string) (string, error) {
+	var successfullyRedirected = false
+
 	// increment the hitcount and update the item
 	defer func() {
 		go func() {
-			err := s.incrementHitCount(shortURLHash)
-			if err != nil {
-				s.Logger.Error(fmt.Sprintf("error incrementing hitcount - %s", err.Error()))
+			if successfullyRedirected {
+				err := s.incrementHitCount(shortURLHash)
+				if err != nil {
+					s.Logger.Error(fmt.Sprintf("error incrementing hitcount - %s", err.Error()))
+				}
 			}
 		}()
 	}()
@@ -35,6 +39,7 @@ func (s *ShortifyReaderService) Reader(shortURLHash string) (string, error) {
 	// checking and getting value from redis
 	cacheValue, err := s.GetKeyValue(shortURLHash)
 	if err == nil {
+		successfullyRedirected = true
 		return cacheValue, nil
 	}
 
@@ -51,6 +56,7 @@ func (s *ShortifyReaderService) Reader(shortURLHash string) (string, error) {
 	// caching data into redis with expiration of 2 months
 	go s.cacheData(shortURLHash, item)
 
+	successfullyRedirected = true
 	return item.LongURL, nil
 }
 
