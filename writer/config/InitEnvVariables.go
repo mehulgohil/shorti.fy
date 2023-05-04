@@ -11,6 +11,9 @@ type EnvConfig struct {
 	AWSSecretAccessToken string `env:"AWS_SECRET_ACCESS_TOKEN"`
 	AWSRegion            string `env:"AWS_REGION"`
 	APPDomain            string `env:"APP_DOMAIN"`
+	IDPDomain            string `env:"IDP_DOMAIN"`
+	IDPScope             string `env:"IDP_SCOPE"`
+	IDPAudience          string `env:"IDP_AUDIENCE"`
 }
 
 var EnvVariables EnvConfig
