@@ -1,7 +1,6 @@
 package main
 
 import (
-	"github.com/iris-contrib/middleware/cors"
 	"github.com/mehulgohil/shorti.fy/writer/config"
 	_ "github.com/mehulgohil/shorti.fy/writer/docs"
 )
@@ -26,14 +25,6 @@ func main() {
 
 	//initialize api routes
 	app := Router().InitRouter(config.DynamoDB().(*config.DBClientHandler).DBClient)
-
-	//allowed cors origin
-	crs := cors.New(cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowCredentials: true,
-		AllowedMethods:   []string{"GET", "POST", "DELETE", "PATCH", "OPTIONS"},
-	})
-	app.UseRouter(crs)
 
 	//initialize swagger routes
 	config.SwaggerRouter().InitSwaggerRouter(app)
