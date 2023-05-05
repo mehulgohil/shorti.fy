@@ -1,133 +1,97 @@
 package middleware
 
 import (
-	"crypto/rsa"
-	"encoding/json"
+	"context"
 	"errors"
-	"fmt"
-	"github.com/dgrijalva/jwt-go"
+	jwtmiddleware "github.com/auth0/go-jwt-middleware/v2"
+	"github.com/auth0/go-jwt-middleware/v2/jwks"
+	"github.com/auth0/go-jwt-middleware/v2/validator"
 	"github.com/kataras/iris/v12"
 	"github.com/mehulgohil/shorti.fy/writer/config"
+	"log"
 	"net/http"
-	"strings"
+	"net/url"
+	"time"
 )
 
-type TokenPayload struct {
-	jwt.StandardClaims
-	Iss   string   `json:"iss"`
-	Sub   string   `json:"sub"`
-	Aud   []string `json:"aud"`
-	Iat   int      `json:"iat"`
-	Exp   int      `json:"exp"`
-	Azp   string   `json:"azp"`
-	Scope string   `json:"scope"`
+type CustomClaims struct {
+	Aud         []string `json:"aud"`
+	Permissions []string `json:"permissions"`
+	Iss         string   `json:"iss"`
 }
 
-type Jwks struct {
-	Keys []JSONWebKeys `json:"keys"`
+var customClaims = func() validator.CustomClaims {
+	return &CustomClaims{}
 }
 
-type JSONWebKeys struct {
-	Alg string   `json:"alg"`
-	Kty string   `json:"kty"`
-	Use string   `json:"use"`
-	N   string   `json:"n"`
-	E   string   `json:"e"`
-	Kid string   `json:"kid"`
-	X5T string   `json:"x5t"`
-	X5C []string `json:"x5c"`
-}
+func CheckJWT() iris.Handler {
+	issuerURL, err := url.Parse(config.EnvVariables.IDPDomain)
+	if err != nil {
+		log.Fatalf("failed to parse the issuer url: %v", err)
+	}
+	provider := jwks.NewCachingProvider(issuerURL, 5*time.Minute)
 
-func ValidateOAuthToken(ctx iris.Context) {
-	authHeader := ctx.GetHeader("Authorization")
-	if authHeader == "" {
-		ctx.StopWithStatus(iris.StatusUnauthorized)
-		return
+	// Set up the validator.
+	jwtValidator, err := validator.New(
+		provider.KeyFunc,
+		validator.RS256,
+		config.EnvVariables.IDPDomain,
+		[]string{config.EnvVariables.IDPAudience},
+		validator.WithCustomClaims(customClaims),
+		validator.WithAllowedClockSkew(30*time.Second),
+	)
+	if err != nil {
+		log.Fatalf("failed to set up the validator: %v", err)
 	}
 
-	rawToken := strings.TrimPrefix(authHeader, "Bearer ")
+	errorHandler := func(w http.ResponseWriter, r *http.Request, err error) {
+		log.Printf("Encountered error while validating JWT: %v", err)
+	}
 
-	payload := TokenPayload{}
+	middleware := jwtmiddleware.New(
+		jwtValidator.ValidateToken,
+		jwtmiddleware.WithErrorHandler(errorHandler),
+	)
 
-	jwtToken, err := jwt.ParseWithClaims(rawToken, &payload, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %s", token.Header["alg"])
+	return func(ctx iris.Context) {
+		encounteredError := true
+		var handler http.HandlerFunc = func(w http.ResponseWriter, r *http.Request) {
+			encounteredError = false
+			ctx.ResetRequest(r)
+			ctx.Next()
 		}
 
-		cert, err := getPemCertForKeyId(token.Header["kid"].(string))
-		if err != nil {
-			ctx.StopWithPlainError(iris.StatusUnauthorized, err)
-		}
-		return cert, nil
-	})
-	if err != nil {
-		ctx.StopWithPlainError(iris.StatusUnauthorized, err)
-	}
+		middleware.CheckJWT(handler).ServeHTTP(ctx.ResponseWriter(), ctx.Request())
 
-	err = jwtToken.Claims.Valid()
-	if err != nil {
-		ctx.StopWithPlainError(iris.StatusUnauthorized, err)
-	}
-
-	err = payload.Validate()
-	if err != nil {
-		ctx.StopWithPlainError(iris.StatusUnauthorized, err)
-	}
-
-	ctx.Next()
-}
-
-func getPemCertForKeyId(keyId string) (*rsa.PublicKey, error) {
-	cert := ""
-	resp, err := http.Get(config.EnvVariables.IDPDomain + ".well-known/jwks.json")
-	if err != nil {
-		return nil, err
-	}
-
-	var jwks = Jwks{}
-	err = json.NewDecoder(resp.Body).Decode(&jwks)
-	if err != nil {
-		return nil, err
-	}
-
-	for k := range jwks.Keys {
-		if keyId == jwks.Keys[k].Kid {
-			cert = "-----BEGIN CERTIFICATE-----\n" + jwks.Keys[k].X5C[0] + "\n-----END CERTIFICATE-----"
+		if encounteredError {
+			ctx.StopWithJSON(
+				iris.StatusUnauthorized,
+				map[string]string{"message": "JWT is invalid."},
+			)
 		}
 	}
-
-	if cert == "" {
-		return nil, errors.New("unable to find appropriate key")
-	}
-
-	c, err := jwt.ParseRSAPublicKeyFromPEM([]byte(cert))
-	if err != nil {
-		return nil, err
-	}
-
-	return c, nil
 }
 
-func (t TokenPayload) Validate() error {
-	if !checkAudExist(config.EnvVariables.IDPAudience, t.Aud) {
+func (c *CustomClaims) Validate(ctx context.Context) error {
+	if !checkItemExists(config.EnvVariables.IDPAudience, c.Aud) {
 		return errors.New("invalid audience")
 	}
-	if !strings.Contains(t.Scope, config.EnvVariables.IDPScope) {
-		return errors.New("invalid scope")
+	if !checkItemExists(config.EnvVariables.IDPScope, c.Permissions) {
+		return errors.New("invalid permission")
 	}
-	if t.Iss != config.EnvVariables.IDPDomain {
+	if c.Iss != config.EnvVariables.IDPDomain {
 		return errors.New("invalid issuer")
 	}
 	return nil
 }
 
-func checkAudExist(aud string, audList []string) bool {
-	if len(audList) == 0 {
+func checkItemExists(item string, arr []string) bool {
+	if len(arr) == 0 {
 		return false
 	}
 
-	for _, eachAud := range audList {
-		if eachAud == aud {
+	for _, eachAud := range arr {
+		if eachAud == item {
 			return true
 		}
 	}
