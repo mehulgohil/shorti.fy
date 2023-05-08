@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/caarlos0/env/v8 v8.0.0
 	github.com/coreos/go-oidc/v3 v3.5.0
+	github.com/gorilla/securecookie v1.1.1
 	github.com/kataras/iris/v12 v12.2.0
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.7.0

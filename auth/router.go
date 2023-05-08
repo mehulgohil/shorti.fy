@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gorilla/securecookie"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/accesslog"
 	"github.com/kataras/iris/v12/sessions"
@@ -30,6 +31,7 @@ func (router *router) InitRouter(auth *authenticator.Authenticator) *iris.Applic
 	ac := makeAccessLog()
 	app.UseRouter(ac.Handler)
 	app.Use(sess.Handler())
+	app.Use(useSecureCookies())
 
 	loginHandler := controller.LoginHandler{Auth: auth}
 	callbackHandler := controller.CallbackHandler{Auth: auth}
@@ -62,4 +64,18 @@ func makeAccessLog() *accesslog.AccessLog {
 	ac.BytesSent = true
 
 	return ac
+}
+
+func useSecureCookies() iris.Handler {
+	var (
+		hashKey  = securecookie.GenerateRandomKey(64)
+		blockKey = securecookie.GenerateRandomKey(32)
+
+		s = securecookie.New(hashKey, blockKey)
+	)
+
+	return func(ctx iris.Context) {
+		ctx.AddCookieOptions(iris.CookieEncoding(s))
+		ctx.Next()
+	}
 }

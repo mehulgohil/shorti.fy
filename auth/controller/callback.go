@@ -38,13 +38,12 @@ func (c *CallbackHandler) Callback(ctx iris.Context) {
 		ctx.StopWithError(http.StatusInternalServerError, err)
 		return
 	}
-	//fmt.Println(token)
-	fmt.Println(profile)
+
 	session.Set("access_token", token.AccessToken)
 	session.Set("profile", profile)
-	fmt.Println("============")
-	fmt.Println(session.Get("profile"))
-	fmt.Println("============")
+	fmt.Println(token.AccessToken)
+	ctx.SetCookieKV("token", token.AccessToken, iris.CookieHTTPOnly(false))
+
 	// Redirect to logged in page.
 	ctx.Redirect("/user", http.StatusTemporaryRedirect)
 }
