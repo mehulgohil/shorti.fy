@@ -11,13 +11,16 @@ import (
 type WriterHandler struct{}
 
 func (w *WriterHandler) WriterRedirect(ctx iris.Context) {
+	userCookie := ctx.GetCookie("logged_id_email")
+	fmt.Println(userCookie)
+
 	client := &http.Client{}
 	req, err := http.NewRequest(ctx.Request().Method, "http://localhost:3000/v1/shorten", ctx.Request().Body)
 	if err != nil {
 		ctx.StopWithError(500, err)
 		return
 	}
-	fmt.Println(TOKEN)
+
 	req.Header.Add("Authorization", "Bearer "+TOKEN)
 	req.Header.Add("Content-Type", "application/json")
 

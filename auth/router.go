@@ -43,7 +43,7 @@ func (router *router) InitRouter(auth *authenticator.Authenticator) *iris.Applic
 	app.Get("/logout", logoutHandler.Logout)
 	app.Get("/user", middleware.IsAuthenticated)
 
-	app.Post("/shorten", writerHandler.WriterRedirect)
+	app.Post("/shorten", middleware.IsAuthenticated, writerHandler.WriterRedirect)
 
 	return app
 }
