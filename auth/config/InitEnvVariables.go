@@ -8,6 +8,8 @@ type envConfig struct {
 	Auth0ClientID     string `env:"AUTH0_CLIENT_ID"`
 	Auth0ClientSecret string `env:"AUTH0_CLIENT_SECRET"`
 	Auth0CallbackURL  string `env:"AUTH0_CALLBACK_URL"`
+	Auth0Audience     string `env:"AUTH0_AUDIENCE"`
+	ShortifyWriterAPI string `env:"SHORTIFY_WRITER_API"`
 }
 
 var EnvVariables envConfig

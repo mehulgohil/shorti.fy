@@ -1,9 +1,7 @@
 package controller
 
 import (
-	"fmt"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/sessions"
 	"github.com/mehulgohil/shorti.fy/auth/authenticator"
 	"net/http"
 )
@@ -13,9 +11,8 @@ type CallbackHandler struct {
 }
 
 func (c *CallbackHandler) Callback(ctx iris.Context) {
-	session := sessions.Get(ctx)
 
-	if ctx.URLParam("state") != session.Get("state") {
+	if ctx.URLParam("state") != state {
 		ctx.StopWithJSON(http.StatusBadRequest, "Invalid state parameter.")
 		return
 	}
@@ -39,11 +36,11 @@ func (c *CallbackHandler) Callback(ctx iris.Context) {
 		return
 	}
 
-	session.Set("access_token", token.AccessToken)
-	session.Set("profile", profile)
-	fmt.Println(token.AccessToken)
-	ctx.SetCookieKV("token", token.AccessToken, iris.CookieHTTPOnly(false))
+	TOKEN = token.AccessToken
+	PROFILE = profile["email"].(string)
 
-	// Redirect to logged in page.
-	ctx.Redirect("/user", http.StatusTemporaryRedirect)
+	ctx.SetCookieKV("logged_id_email", profile["email"].(string), iris.CookieHTTPOnly(false))
+
+	//// Redirect to logged in page.
+	//ctx.Redirect("/user", http.StatusTemporaryRedirect)
 }

@@ -36,11 +36,14 @@ func (router *router) InitRouter(auth *authenticator.Authenticator) *iris.Applic
 	loginHandler := controller.LoginHandler{Auth: auth}
 	callbackHandler := controller.CallbackHandler{Auth: auth}
 	logoutHandler := controller.LogoutHandler{}
+	writerHandler := controller.WriterHandler{}
 
 	app.Get("/login", loginHandler.Login)
 	app.Get("/callback", callbackHandler.Callback)
 	app.Get("/logout", logoutHandler.Logout)
 	app.Get("/user", middleware.IsAuthenticated)
+
+	app.Post("/shorten", writerHandler.WriterRedirect)
 
 	return app
 }

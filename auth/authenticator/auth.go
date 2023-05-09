@@ -29,7 +29,7 @@ func New() (*Authenticator, error) {
 		ClientSecret: config.EnvVariables.Auth0ClientSecret,
 		RedirectURL:  config.EnvVariables.Auth0CallbackURL,
 		Endpoint:     provider.Endpoint(),
-		Scopes:       []string{oidc.ScopeOpenID, "profile"},
+		Scopes:       []string{oidc.ScopeOpenID, "profile", "email"},
 	}
 
 	return &Authenticator{
