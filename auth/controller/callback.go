@@ -4,11 +4,14 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
 	"github.com/mehulgohil/shorti.fy/auth/authenticator"
+	"github.com/mehulgohil/shorti.fy/auth/config"
+	"github.com/mehulgohil/shorti.fy/auth/interfaces"
 	"net/http"
 )
 
 type CallbackHandler struct {
-	Auth *authenticator.Authenticator
+	Auth        *authenticator.Authenticator
+	RedisClient interfaces.IRedisLayer
 }
 
 func (c *CallbackHandler) Callback(ctx iris.Context) {
@@ -37,7 +40,7 @@ func (c *CallbackHandler) Callback(ctx iris.Context) {
 		return
 	}
 
-	TOKEN = token.AccessToken
+	tokenMap[profile["email"].(string)] = token.AccessToken
 	PROFILE = profile["email"].(string)
 
 	session.Set("profile", profile)
@@ -45,5 +48,5 @@ func (c *CallbackHandler) Callback(ctx iris.Context) {
 	ctx.SetCookieKV("logged_id_email", profile["email"].(string), iris.CookieHTTPOnly(false))
 
 	// Redirect to logged in page.
-	ctx.Redirect("/user", http.StatusTemporaryRedirect)
+	ctx.Redirect(config.EnvVariables.ShortifyFrontendDomain, http.StatusTemporaryRedirect)
 }

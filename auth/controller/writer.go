@@ -2,26 +2,33 @@ package controller
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 	"github.com/kataras/iris/v12"
+	"github.com/mehulgohil/shorti.fy/auth/config"
+	"github.com/mehulgohil/shorti.fy/auth/interfaces"
 	"io"
 	"net/http"
 )
 
-type WriterHandler struct{}
+type WriterHandler struct {
+	RedisClient interfaces.IRedisLayer
+}
 
 func (w *WriterHandler) WriterRedirect(ctx iris.Context) {
 	userCookie := ctx.GetCookie("logged_id_email")
-	fmt.Println(userCookie)
+	if userCookie == "" {
+		ctx.StopWithError(iris.StatusUnauthorized, errors.New("please make sure user is logged in"))
+		return
+	}
 
 	client := &http.Client{}
-	req, err := http.NewRequest(ctx.Request().Method, "http://localhost:3000/v1/shorten", ctx.Request().Body)
+	req, err := http.NewRequest(ctx.Request().Method, config.EnvVariables.ShortifyWriterAPI, ctx.Request().Body)
 	if err != nil {
 		ctx.StopWithError(500, err)
 		return
 	}
 
-	req.Header.Add("Authorization", "Bearer "+TOKEN)
+	req.Header.Add("Authorization", "Bearer "+tokenMap[userCookie])
 	req.Header.Add("Content-Type", "application/json")
 
 	res, err := client.Do(req)

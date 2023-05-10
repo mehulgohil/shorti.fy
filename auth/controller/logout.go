@@ -4,11 +4,14 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/sessions"
 	"github.com/mehulgohil/shorti.fy/auth/config"
+	"github.com/mehulgohil/shorti.fy/auth/interfaces"
 	"net/http"
 	"net/url"
 )
 
-type LogoutHandler struct{}
+type LogoutHandler struct {
+	RedisClient interfaces.IRedisLayer
+}
 
 func (l *LogoutHandler) Logout(ctx iris.Context) {
 	session := sessions.Get(ctx)
@@ -20,12 +23,7 @@ func (l *LogoutHandler) Logout(ctx iris.Context) {
 		return
 	}
 
-	scheme := "http"
-	if ctx.Request().TLS != nil {
-		scheme = "https"
-	}
-
-	returnTo, err := url.Parse(scheme + "://" + ctx.Request().Host)
+	returnTo, err := url.Parse(config.EnvVariables.ShortifyFrontendDomain)
 	if err != nil {
 		ctx.StopWithError(http.StatusInternalServerError, err)
 		return

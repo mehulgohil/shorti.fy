@@ -7,6 +7,7 @@ require (
 	github.com/coreos/go-oidc/v3 v3.5.0
 	github.com/gorilla/securecookie v1.1.1
 	github.com/kataras/iris/v12 v12.2.0
+	github.com/redis/go-redis/v9 v9.0.4
 	go.uber.org/zap v1.24.0
 	golang.org/x/oauth2 v0.7.0
 )
@@ -19,6 +20,8 @@ require (
 	github.com/Shopify/goreferrer v0.0.0-20220729165902-8cddb4f5de06 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
+	github.com/cespare/xxhash/v2 v2.2.0 // indirect
+	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/eknkc/amber v0.0.0-20171010120322-cdade1c07385 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/flosch/pongo2/v4 v4.0.2 // indirect

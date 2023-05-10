@@ -1,5 +1,5 @@
 package controller
 
 var state = "ags91jja03goa"
-var TOKEN string
+var tokenMap = make(map[string]string)
 var PROFILE string

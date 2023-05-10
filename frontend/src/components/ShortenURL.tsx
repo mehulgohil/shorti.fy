@@ -22,15 +22,18 @@ function ShortenURL(props: ShortenURLProps) {
   }
 
   async function submitShortenURL() {
-    const requestOptions = {
+    const requestOptions: RequestInit = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
       body: JSON.stringify({
         "long_url": longURL,
         "user_email": email
-      })
+      }),
     };
-    const response = await fetch("https://a585e18fb8f114857badcd6d85868d49-1713447191.ap-south-1.elb.amazonaws.com/v1/shorten", requestOptions);
+    const response = await fetch("http://localhost:8080/shorten", requestOptions);
 
     if(response.ok) {
       const data = JSON.stringify(await response.json());
