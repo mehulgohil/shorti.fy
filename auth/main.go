@@ -7,8 +7,6 @@ import (
 )
 
 func main() {
-	//initialize logger
-	config.InitializeLogger()
 	//initialize env variables
 	config.LoadEnvVariables()
 

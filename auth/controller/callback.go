@@ -2,11 +2,11 @@ package controller
 
 import (
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/sessions"
 	"github.com/mehulgohil/shorti.fy/auth/authenticator"
 	"github.com/mehulgohil/shorti.fy/auth/config"
 	"github.com/mehulgohil/shorti.fy/auth/interfaces"
 	"net/http"
+	"time"
 )
 
 type CallbackHandler struct {
@@ -15,7 +15,6 @@ type CallbackHandler struct {
 }
 
 func (c *CallbackHandler) Callback(ctx iris.Context) {
-	session := sessions.Get(ctx)
 	if ctx.URLParam("state") != state {
 		ctx.StopWithJSON(http.StatusBadRequest, "Invalid state parameter.")
 		return
@@ -40,12 +39,18 @@ func (c *CallbackHandler) Callback(ctx iris.Context) {
 		return
 	}
 
-	tokenMap[profile["email"].(string)] = token.AccessToken
-	PROFILE = profile["email"].(string)
+	err = c.RedisClient.SetKeyValue(profile["email"].(string)+"_token", token.AccessToken, 24*time.Hour)
+	if err != nil {
+		ctx.StopWithError(http.StatusInternalServerError, err)
+		return
+	}
+	err = c.RedisClient.HSetKeyValue(profile["email"].(string)+"_profile", profile, 24*time.Hour)
+	if err != nil {
+		ctx.StopWithError(http.StatusInternalServerError, err)
+		return
+	}
 
-	session.Set("profile", profile)
-
-	ctx.SetCookieKV("logged_id_email", profile["email"].(string), iris.CookieHTTPOnly(false))
+	ctx.SetCookieKV("logged_id_email", profile["email"].(string))
 
 	// Redirect to logged in page.
 	ctx.Redirect(config.EnvVariables.ShortifyFrontendDomain, http.StatusTemporaryRedirect)
