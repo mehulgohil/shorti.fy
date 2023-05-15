@@ -1,6 +1,8 @@
 package config
 
 import (
+	"context"
+	"fmt"
 	"github.com/mehulgohil/shorti.fy/redirect/infrastructures"
 	"github.com/redis/go-redis/v9"
 	"sync"
@@ -27,6 +29,8 @@ func (r *RedisHandler) InitRedisConnection() {
 			DB:       0,                          // use default DB
 		}),
 	}
+
+	fmt.Println(r.RedisClient.Client.Ping(context.TODO()))
 }
 
 func Redis() IRedisHandler {

@@ -6,6 +6,7 @@ import (
 	"github.com/mehulgohil/shorti.fy/redirect/interfaces"
 	"github.com/mehulgohil/shorti.fy/redirect/models"
 	"go.uber.org/zap"
+	"sync"
 	"time"
 )
 
@@ -18,6 +19,7 @@ type ShortifyReaderService struct {
 	interfaces.IDataAccessLayer
 	interfaces.IRedisLayer
 	Logger *zap.Logger
+	mux    sync.Mutex
 }
 
 // Reader get long url from db
@@ -28,10 +30,12 @@ func (s *ShortifyReaderService) Reader(shortURLHash string) (string, error) {
 	defer func() {
 		go func() {
 			if successfullyRedirected {
+				s.mux.Lock()
 				err := s.incrementHitCount(shortURLHash)
 				if err != nil {
 					s.Logger.Error(fmt.Sprintf("error incrementing hitcount - %s", err.Error()))
 				}
+				s.mux.Unlock()
 			}
 		}()
 	}()
