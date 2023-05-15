@@ -7,6 +7,7 @@ import (
 	"github.com/mehulgohil/shorti.fy/redirect/models"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/zap"
+	"sync"
 	"testing"
 )
 
@@ -33,6 +34,7 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 			mockDataAccess,
 			mockRedis,
 			ZapLogger,
+			sync.Mutex{},
 		}
 
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, nil).Times(1)
@@ -56,6 +58,7 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 			mockDataAccess,
 			mockRedis,
 			ZapLogger,
+			sync.Mutex{},
 		}
 
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, errors.New(mockError)).Times(1)
@@ -77,6 +80,7 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 			mockDataAccess,
 			mockRedis,
 			ZapLogger,
+			sync.Mutex{},
 		}
 
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, errors.New(mockError)).Times(1)
@@ -98,6 +102,7 @@ func TestShortifyReaderService_Reader(t *testing.T) {
 			mockDataAccess,
 			mockRedis,
 			ZapLogger,
+			sync.Mutex{},
 		}
 
 		mockRedis.EXPECT().GetKeyValue(gomock.Any()).Return(mockRedisLongURL, errors.New(mockError)).Times(1)
@@ -130,6 +135,7 @@ func TestShortifyReaderService_incrementHitCount(t *testing.T) {
 			mockDataAccess,
 			mockRedis,
 			ZapLogger,
+			sync.Mutex{},
 		}
 
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, errors.New(mockError)).Times(1)
@@ -147,6 +153,7 @@ func TestShortifyReaderService_incrementHitCount(t *testing.T) {
 			mockDataAccess,
 			mockRedis,
 			ZapLogger,
+			sync.Mutex{},
 		}
 
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, nil).Times(1)
@@ -165,6 +172,7 @@ func TestShortifyReaderService_incrementHitCount(t *testing.T) {
 			mockDataAccess,
 			mockRedis,
 			ZapLogger,
+			sync.Mutex{},
 		}
 
 		mockDataAccess.EXPECT().GetItem(gomock.Any()).Return(models.URLTable{}, nil).Times(1)
