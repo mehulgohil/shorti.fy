@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/mehulgohil/shorti.fy/writer/cmd"
 	"github.com/mehulgohil/shorti.fy/writer/config"
 	_ "github.com/mehulgohil/shorti.fy/writer/docs"
 )
@@ -23,14 +24,19 @@ func main() {
 	config.DynamoDB().InitDBConnection()
 	config.DynamoDB().InitTables()
 
-	//initialize api routes
-	app := Router().InitRouter(config.DynamoDB().(*config.DBClientHandler).DBClient)
+	if config.EnvVariables.BuildCLI {
+		//execute cli tool
+		cmd.Execute()
+	} else {
+		//initialize api routes
+		app := Router().InitRouter(config.DynamoDB().(*config.DBClientHandler).DBClient)
 
-	//initialize swagger routes
-	config.SwaggerRouter().InitSwaggerRouter(app)
+		//initialize swagger routes
+		config.SwaggerRouter().InitSwaggerRouter(app)
 
-	err := app.Listen(":" + config.EnvVariables.AppPort)
-	if err != nil {
-		panic("unable to start server")
+		err := app.Listen(":" + config.EnvVariables.AppPort)
+		if err != nil {
+			panic("unable to start server")
+		}
 	}
 }

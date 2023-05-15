@@ -14,6 +14,7 @@ type EnvConfig struct {
 	IDPDomain            string `env:"IDP_DOMAIN"`
 	IDPScope             string `env:"IDP_SCOPE"`
 	IDPAudience          string `env:"IDP_AUDIENCE"`
+	BuildCLI             bool   `env:"BUILD_CLI" envDefault:"false"`
 }
 
 var EnvVariables EnvConfig
