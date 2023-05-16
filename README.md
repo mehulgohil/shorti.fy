@@ -146,7 +146,7 @@ Currently, we have 2 flows that we can implement
    Where our middleware will act as a backend for frontend and will generate the token,
    and we use this token to access the shortify apis (writer).
    
-   In our resource backend server we can validate the JWT token in the handler.
+   In our resource backend server, we can validate the JWT token in the handler.
 > Ref
 > 
 > [Token Handler Patter](https://levelup.gitconnected.com/secure-frontend-authorization-67ae11953723)
