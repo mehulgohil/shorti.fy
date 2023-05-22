@@ -9,4 +9,5 @@ type URLTable struct {
 	ExpirationDate time.Time
 	HitCount       int
 	CreatedBy      string
+	Version        int
 }

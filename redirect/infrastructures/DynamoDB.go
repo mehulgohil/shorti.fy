@@ -13,16 +13,8 @@ type DynamoDBClient struct {
 	Client *dynamodb.Client
 }
 
-func (d *DynamoDBClient) SaveItem(item models.URLTable) error {
-	marshedData, err := attributevalue.MarshalMap(item)
-	if err != nil {
-		return err
-	}
-
-	_, err = d.Client.PutItem(context.Background(), &dynamodb.PutItemInput{
-		TableName: aws.String("URL"),
-		Item:      marshedData,
-	})
+func (d *DynamoDBClient) SaveItem(input *dynamodb.UpdateItemInput) error {
+	_, err := d.Client.UpdateItem(context.Background(), input)
 	if err != nil {
 		return err
 	}
