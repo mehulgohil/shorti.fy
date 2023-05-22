@@ -32,6 +32,7 @@ func (s *ShortifyWriterService) Writer(longURL string, userEmail string) (string
 		ExpirationDate: time.Now().AddDate(1, 0, 0), //setting expiration date as 1 year from now
 		HitCount:       0,                           // initialize hitcount to 0
 		CreatedBy:      userEmail,
+		Version:        0,
 	})
 	if err != nil {
 		return "", err
